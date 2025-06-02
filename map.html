@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Carte des installations</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 400px; width: 100%; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo" id="logo">
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="map.html">Carte</a>
+      <a href="index.html#recherche">Recherche</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Maquette Panneaux solaires</h1>
+    <h2>Carte des installations:</h2>
+    <div id="map"></div>
+    <form id="map-filters">
+      <select id="select-annee" name="annee"></select>
+      <select id="select-departement-map" name="departement"></select>
+    </form>
+  </main>
+  <footer>
+    Made by Anita and Mael CIR2 &copy; 2025
+  </footer>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="map.js"></script>
+</body>
+</html>
