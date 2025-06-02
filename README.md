@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Projet_CIR2</title>
 </head>
 <body>
   <h1>Projet_CIR2</h1>
