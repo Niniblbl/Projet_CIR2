@@ -21,7 +21,7 @@
   </ul>
   <h2>Auteurs</h2>
   <p>
-    Made by Anita and Mael CIR2 2025
+    Anita et Mael CIR2 2025
   </p>
 </body>
 </html>
