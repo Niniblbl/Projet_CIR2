@@ -14,10 +14,10 @@
   <ul>
     <li><strong>README.md</strong> : Ce fichier</li>
     <li><strong>style.css</strong> : Feuille de style principale</li>
-    <li><strong>html/</strong> : Pages HTML (<code>index.html</code>, <code>map.html</code>, <code>details.html</code>)</li>
-    <li><strong>images/</strong> : Images utilisées sur le site</li>
-    <li><strong>JavaScript/</strong> : Scripts JavaScript (<code>main.js</code>)</li>
-    <li><strong>php/</strong> : Scripts PHP pour la base de données et les requêtes</li>
+    <li><strong>html/</strong> : Dossier contenant les pages HTML (<code>index.html</code>, <code>map.html</code>, <code>details.html</code>)</li>
+    <li><strong>images/</strong> : Fichier contenant les images utilisées sur le site</li>
+    <li><strong>JavaScript/</strong> : Fichier contenant les scripts JavaScript (<code>main.js</code>)</li>
+    <li><strong>php/</strong> : Fichier contenant les fichiers PHP pour la base de données et les requêtes au serveur</li>
   </ul>
   <h2>Auteurs</h2>
   <p>
