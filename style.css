@@ -1,0 +1,92 @@
+/* Variables de base */
+:root {
+  --couleur-fond: #f9f9f9;
+  --couleur-primaire: #2c3e50;
+  --couleur-secondaire: #3498db;
+  --couleur-texte: #333;
+  --rayon-bord: 12px;
+  --ombre: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --marge-laterale: 40px;
+}
+
+/* Réinitialisation de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--couleur-fond);
+  color: var(--couleur-texte);
+  line-height: 1.6;
+  padding: 20px var(--marge-laterale);
+}
+
+/* Carte principale */
+.carte {
+  background-color: #fff;
+  border-radius: var(--rayon-bord);
+  box-shadow: var(--ombre);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+/* En-tête de la carte */
+.carte__header {
+  margin-bottom: 20px;
+}
+
+.carte__titre {
+  font-size: 2em;
+  color: var(--couleur-primaire);
+}
+
+.carte__sous-titre {
+  font-size: 1.2em;
+  color: var(--couleur-secondaire);
+}
+
+/* Contenu principal */
+.carte__contenu {
+  margin-bottom: 20px;
+}
+
+/* Pied de page avec bouton */
+.carte__footer {
+  text-align: right;
+}
+
+.carte__bouton {
+  background-color: var(--couleur-secondaire);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: var(--rayon-bord);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.carte__bouton:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive pour les téléphones */
+@media (max-width: 600px) {
+  body {
+    padding: 10px 20px;
+  }
+
+  .carte {
+    padding: 20px;
+  }
+
+  .carte__titre {
+    font-size: 1.5em;
+  }
+
+  .carte__sous-titre {
+    font-size: 1em;
+  }
+}
