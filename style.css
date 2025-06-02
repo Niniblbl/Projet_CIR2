@@ -74,6 +74,7 @@ h2 {
   flex-wrap: wrap;
   gap: 18px;
   margin-bottom: 32px;
+  justify-content: center;
 }
 
 .stat {
