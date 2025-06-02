@@ -1,92 +1,200 @@
 /* Variables de base */
-:root {
-  --couleur-fond: #f9f9f9;
-  --couleur-primaire: #2c3e50;
-  --couleur-secondaire: #3498db;
-  --couleur-texte: #333;
-  --rayon-bord: 12px;
-  --ombre: 0 4px 8px rgba(0, 0, 0, 0.1);
-  --marge-laterale: 40px;
-}
-
-/* Réinitialisation de base */
+/* Reset some default styles */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--couleur-fond);
-  color: var(--couleur-texte);
-  line-height: 1.6;
-  padding: 20px var(--marge-laterale);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f7f7f7;
+  color: #222;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Carte principale */
-.carte {
-  background-color: #fff;
-  border-radius: var(--rayon-bord);
-  box-shadow: var(--ombre);
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 30px;
+header {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* En-tête de la carte */
-.carte__header {
-  margin-bottom: 20px;
+#logo {
+  height: 48px;
+  margin-right: 24px;
 }
 
-.carte__titre {
-  font-size: 2em;
-  color: var(--couleur-primaire);
-}
-
-.carte__sous-titre {
-  font-size: 1.2em;
-  color: var(--couleur-secondaire);
-}
-
-/* Contenu principal */
-.carte__contenu {
-  margin-bottom: 20px;
-}
-
-/* Pied de page avec bouton */
-.carte__footer {
-  text-align: right;
-}
-
-.carte__bouton {
-  background-color: var(--couleur-secondaire);
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: var(--rayon-bord);
+nav a {
+  color: #222;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  margin: 0 12px;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.carte__bouton:hover {
-  background-color: #2980b9;
+nav a:hover {
+  color: #0077cc;
 }
 
-/* Responsive pour les téléphones */
-@media (max-width: 600px) {
-  body {
-    padding: 10px 20px;
-  }
+main {
+  flex: 1;
+  max-width: 900px;
+  margin: 32px auto 24px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 32px 24px 40px 24px;
+}
 
-  .carte {
-    padding: 20px;
-  }
+h1 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
 
-  .carte__titre {
-    font-size: 1.5em;
-  }
+h2 {
+  font-size: 1.2rem;
+  margin: 32px 0 16px 0;
+  font-weight: 600;
+}
 
-  .carte__sous-titre {
-    font-size: 1em;
+#description {
+  margin-bottom: 32px;
+  color: #444;
+  font-size: 1.05rem;
+}
+
+#stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.stat {
+  background: #f0f6fa;
+  border: 1px solid #cce2f5;
+  border-radius: 8px;
+  padding: 18px 24px;
+  min-width: 150px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+#recherche {
+  margin-top: 32px;
+}
+
+form#search-form,
+form#map-filters {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+select, button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  font-size: 1rem;
+  background: #fafbfc;
+  transition: border 0.2s;
+}
+
+select:focus, button:focus {
+  outline: none;
+  border: 1.5px solid #0077cc;
+}
+
+button {
+  background: #222;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  min-width: 110px;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #0077cc;
+}
+
+#resultats {
+  margin-top: 24px;
+}
+
+#resultats table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+#resultats th, #resultats td {
+  border: 1px solid #e0e0e0;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+#resultats th {
+  background: #eaf4fb;
+  font-weight: 600;
+}
+
+#resultats td a {
+  color: #0077cc;
+  text-decoration: underline;
+}
+
+#details-installation {
+  background: #f6fafd;
+  border: 1px solid #cce2f5;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 24px;
+  font-size: 1.08rem;
+}
+
+#map {
+  margin: 24px 0 32px 0;
+  border-radius: 10px;
+  border: 1px solid #cce2f5;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+footer {
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  padding: 16px 0 8px 0;
+  font-size: 0.98rem;
+  color: #888;
+  margin-top: auto;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  main {
+    padding: 16px 4vw 24px 4vw;
+    max-width: 98vw;
+  }
+  #stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+  form#search-form, form#map-filters {
+    flex-direction: column;
+    gap: 10px;
   }
 }
