@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Carte des installations</title>
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/leaflet.css">
   <style>
     #map { height: 400px; width: 100%; }
   </style>
@@ -22,6 +22,13 @@
     <h1>Maquette Panneaux solaires</h1>
     <h2>Carte des installations:</h2>
     <div id="map"></div>
+    <script src="../JavaScript/leaflet.js"></script>
+    <script>
+      var map = L.map('map').setView([48.8584, 2.2945], 13); 
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+    </script>
     <form id="map-filters">
       <select id="select-annee" name="annee"></select>
       <select id="select-departement-map" name="departement"></select>
@@ -30,7 +37,6 @@
   <footer>
     Made by Anita and Mael CIR2 2025
   </footer>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="map.js"></script>
+  
 </body>
 </html>
