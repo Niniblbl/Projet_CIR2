@@ -214,6 +214,11 @@ footer {
   overflow: hidden;
 }
 
+#map-selects {
+   margin-top: 32px;
+   margin-bottom: 24px;
+}
+
 #map-selects .form-row {
   display: flex;
   gap: 28px;
