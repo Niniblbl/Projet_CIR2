@@ -29,10 +29,85 @@
         attribution: '© OpenStreetMap contributors'
       }).addTo(map);
     </script>
-    <form id="map-filters">
-      <select id="select-annee" name="annee"></select>
-      <select id="select-departement-map" name="departement"></select>
+    <form id="map-selects" style="margin-top:32px; margin-bottom:24px;">
+      <div class="form-row">
+        <div class="form-label">
+          <label for="select-annee">Année</label>
+          <select id="select-annee" name="annee" aria-placeholder="ex : 2025"></select>
+        </div>
+        <div class="form-label">
+          <label for="select-departement-map">Département</label>
+          <select id="select-departement-map" name="departement"></select>
+        </div>
+      </div>
     </form>
+    <form id="map-filters" >
+      <div class="form-row">
+        <div class="form-label">
+          <label>Longitude</label>
+          <input type="text" placeholder="ex: 1.51">
+        </div>
+        <div class="form-label">
+          <label>Latitude</label>
+          <input type="text" placeholder="ex: 43.51">
+        </div>
+        <div class="form-label">
+          <label>Nombre de panneaux</label>
+          <input type="text" placeholder="ex: 10">
+        </div>
+        <div class="form-label">
+          <label>Nombre de onduleurs</label>
+          <input type="text" placeholder=" ex: 4">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-label">
+          <label>Année d'installation</label>
+          <input type="text" placeholder="ex: 2025">
+        </div>
+        <div class="form-label">
+          <label>Mois d'installation</label>
+          <input type="text" placeholder=" ex: 06">
+        </div>
+        <div class="form-label">
+          <label>Marque de panneaux</label>
+          <input type="text" placeholder="ex: Mitsubishi">
+        </div>
+        <div class="form-label">
+          <label>Marque de onduleurs</label>
+          <input type="text" placeholder="ex: SMA">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-label">
+          <label>Région</label>
+          <input type="text" placeholder="ex: Bretagne">
+        </div>
+        <div class="form-label">
+          <label>Département</label>
+          <input type="text" placeholder="ex: Ain">
+        </div>
+        <div class="form-label">
+          <label>Modèle de panneaux</label>
+          <input type="text" placeholder="ex: PV-MF175 TD41">
+        </div>
+        <div class="form-label">
+          <label>Modèle de onduleurs</label>
+          <input type="text" placeholder="ex: Sunny Boy 2500">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-label">
+          <label>Surface</label>
+          <input type="text" placeholder="ex: 21">
+        </div>
+        <div class="form-label">
+          <label>Puissance crête</label>
+          <input type="text" placeholder="ex: 2720">
+        </div>
+      </div>
+    </form>
+    <button type="submit">Insérer</button>
   </main>
   <footer>
     Made by Anita and Mael CIR2 2025
