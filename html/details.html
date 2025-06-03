@@ -2,27 +2,80 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Détail Installation</title>
+  <title>Détails de l'installation</title>
   <link rel="stylesheet" href="../css/style.css">
+
 </head>
 <body>
   <header>
-    <img src="../images/logo.png" alt="Logo" id="logo">
-    <nav>
+    <img src="../images/logo.png" alt="Logo" id="logo" style="height:64px; margin:24px 0 0 24px;">
+    <nav style="float:right; margin:32px 32px 0 0;">
       <a href="index.html">Accueil</a>
       <a href="map.html">Carte</a>
       <a href="index.html#recherche">Recherche</a>
     </nav>
   </header>
   <main>
-    <h1>Maquette Panneaux solaires</h1>
-    <section id="details-installation">
-      <!-- Les infos détaillées seront injectées ici par JS -->
-    </section>
+    <h1 style="text-align:center; margin-top:16px;">Maquette Panneaux solaires</h1>
+    <div class="details-container">
+      <div class="details-header">
+        <span class="details-title">Informations d'installation</span>
+        <div class="details-actions">
+          <button title="Modifier"><span>✏️</span></button>
+          <button title="Supprimer"><span>🗑️</span></button>
+        </div>
+      </div>
+      <div class="details-grid">
+        <div>
+          <span class="details-label">Lieu :</span>
+          <span class="details-value">Bretagne</span>
+        </div>
+        <div>
+          <span class="details-label">Modèle :</span>
+          <span class="details-value">PV-MF175 TD41</span>
+        </div>
+        <div>
+          <span class="details-label">Nombre de panneaux :</span>
+          <span class="details-value">10</span>
+        </div>
+        <div>
+          <span class="details-label">Marque :</span>
+          <span class="details-value">Mitsubishi</span>
+        </div>
+        <div>
+          <span class="details-label">Nombre de onduleurs :</span>
+          <span class="details-value">4</span>
+        </div>
+        <div>
+          <span class="details-label">Marque onduleur :</span>
+          <span class="details-value">SMA</span>
+        </div>
+        <div>
+          <span class="details-label">Année d'installation :</span>
+          <span class="details-value">2025</span>
+        </div>
+        <div>
+          <span class="details-label">Mois d'installation :</span>
+          <span class="details-value">06</span>
+        </div>
+        <div>
+          <span class="details-label">Puissance crête :</span>
+          <span class="details-value">2720</span>
+        </div>
+        <div>
+          <span class="details-label">Surface :</span>
+          <span class="details-value">21</span>
+        </div>
+        <div>
+          <span class="details-label">Modèle onduleur :</span>
+          <span class="details-value">Sunny Boy 2500</span>
+        </div>
+      </div>
+    </div>
   </main>
-  <footer>
-    Made by Anita and Mael CIR2 2025
+  <footer style="margin-top:48px; border-top:1px solid #eee; padding:18px 0 8px 0; text-align:left;">
+    <span style="margin-left:24px;">Made by Anita and Mael CIR2</span>
+    <span style="float:right; margin-right:24px;">2025</span>
   </footer>
-  <script src="details.js"></script>
 </body>
 </html>
