@@ -48,6 +48,7 @@ function sendJsonData($data, $code){
 }
 
 $type = $_GET['type'] ?? null;
+
 if ($type === 'stats') {
     $enregistrements = dbRequestEnregistrement($db);
     $annee = dbRequestAnnee($db);
@@ -58,6 +59,27 @@ if ($type === 'stats') {
     //$marques = dbRequestMarquesOnduleur($db);
     $panneaux = dbRequestNbMarquesPanneaux($db);
 
+if ($type === 'marque_ondul') {
+    $stmt = $db->query('SELECT DISTINCT marque_onduleur FROM marque_onduleur LIMIT 20');
+    while ($row = $stmt->fetch()) {
+        echo '<option value="' . htmlspecialchars($row['marque_onduleur']) . '">' . htmlspecialchars($row['marque_onduleur']) . '</option>';
+    }
+    exit;
+}
+if ($type === 'marque_pan') {
+    $stmt = $db->query('SELECT DISTINCT marque_panneau FROM marque_panneau LIMIT 20');
+    while ($row = $stmt->fetch()) {
+        echo '<option value="' . htmlspecialchars($row['marque_panneau']) . '">' . htmlspecialchars($row['marque_panneau']) . '</option>';
+    }
+    exit;
+}
+if ($type === 'dep') {
+    $stmt = $db->query('SELECT DISTINCT nom_departement FROM departement LIMIT 20');
+    while ($row = $stmt->fetch()) {
+        echo '<option value="' . htmlspecialchars($row['nom_departement']) . '">' . htmlspecialchars($row['nom_departement']) . '</option>';
+    }
+    exit;
+    
     sendJsonData([
         'enregistrements' => $enregistrements[0]['COUNT(id)'] ?? 0,
         'annee' => $annee[0]['moyenne_par_annee'] ?? 0,
@@ -67,6 +89,8 @@ if ($type === 'stats') {
         //'marques' => $marques['nb_marques_onduleur'] ?? 0,
         'panneaux' => $panneaux['nb_marques_panneaux'] ?? 0
     ], 200);
+
     exit;
+}
 }
 ?>
