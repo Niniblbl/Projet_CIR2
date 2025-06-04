@@ -33,9 +33,10 @@ function dbRequestEnregistrement($db){
     }
     return $result;
 }
-function dbRequestAnnee($db){
+
+function dbRequestInstallationsParAnnee($db){
     try{
-        $request = 'SELECT AVG(nb_installations) AS moyenne_par_annee FROM (SELECT COUNT(*) AS nb_installations FROM batiment GROUP BY annee_install) as t';
+        $request = 'SELECT annee_install, COUNT(*) AS nb FROM batiment GROUP BY annee_install ORDER BY annee_install';
         $statement = $db->prepare($request);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -47,14 +48,31 @@ function dbRequestAnnee($db){
     return $result;
 }
 
-function dbRequestRegion($db){
+function dbRequestInstallationsParRegion($db){
     try{
-        $request = 'SELECT r.nom_region, COUNT(b.id_installation) AS nb_installations
+        $request = 'SELECT r.nom_region, COUNT(*) AS nb
                     FROM batiment b
-                    JOIN commune_france c ON b.code_insee = c.code_insee
+                    JOIN commune_france c ON b.locality = c.nom_commune
                     JOIN region r ON c.code_region = r.code_region
-                    GROUP BY r.nom_region
-                    ORDER BY nb_installations DESC';
+                    GROUP BY r.nom_region';
+        $statement = $db->prepare($request);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbRequestInstallationsParRegionEtAnnee($db){
+    try{
+        $request = 'SELECT r.nom_region, b.annee_install, COUNT(*) AS nb
+                    FROM batiment b
+                    JOIN commune_france c ON b.locality = c.nom_commune
+                    JOIN region r ON c.code_region = r.code_region
+                    GROUP BY r.nom_region, b.annee_install';
         $statement = $db->prepare($request);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);

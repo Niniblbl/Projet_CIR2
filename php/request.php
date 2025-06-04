@@ -51,22 +51,27 @@ $type = $_GET['type'] ?? null;
 if ($type === 'stats') {
     $enregistrements = dbRequestEnregistrement($db);
     $annee = dbRequestAnnee($db);
-    error_log(print_r($annee, true));
-    //$mois = dbRequestInstallationsMois($db);
-    $iregion = dbRequestRegion($db);
     $installateurs = dbRequestNbInstallateurs($db);
-    //$marques = dbRequestMarquesOnduleur($db);
     $panneaux = dbRequestNbMarquesPanneaux($db);
 
     sendJsonData([
         'enregistrements' => $enregistrements[0]['COUNT(id)'] ?? 0,
-        'annee' => $annee[0]['moyenne_par_annee'] ?? 0,
-        //'mois' => $mois[0]['COUNT(id)'] ?? 0,
-        'iregion' => $iregion[0]['COUNT(DISTINCT region)'] ?? 0,
-        'installateurs' => $installateurs['nb_installateurs'] ?? 0,
-        //'marques' => $marques['nb_marques_onduleur'] ?? 0,
-        'panneaux' => $panneaux['nb_marques_panneaux'] ?? 0
     ], 200);
+    exit;
+}
+if ($type === 'installations_par_annee') {
+    $iannee = dbRequestInstallationsParAnnee($db);
+    sendJsonData($iannee, 200);
+    exit;
+}
+if ($type === 'installations_par_region') {
+    $regions = dbRequestInstallationsParRegion($db);
+    sendJsonData($regions, 200);
+    exit;
+}
+if ($type === 'installations_par_region_et_annee') {
+    $data = dbRequestInstallationsParRegionEtAnnee($db);
+    sendJsonData($data, 200);
     exit;
 }
 ?>

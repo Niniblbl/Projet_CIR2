@@ -29,21 +29,6 @@
         <span id="stat-enregistrements-count">100</span>
         <br>Enregistrements en base
       </div>
-      <div id="stat-installations-annee" class="stat">
-        <img src="../images/clock.png" class="icon"><br>
-        <span id="stat-installations-annee-m">100</span>
-        <br>Installations par année
-      </div>
-      <div id="stat-installations-mois" class="stat">
-        <img src="../images/house.png" class="icon"><br>
-        <span id="stat-installations-mois-m">100</span>
-        <br>Installations par région
-      </div>
-      <div id="stat-iregion" class="stat">
-        <img src="../images/loc.png" class="icon"><br>
-        <span id="stat-iregion-m">100</span>
-        <br>Installation par année et par région
-      </div>
       <div id="stat-installateurs" class="stat">
         <img src="../images/smiley.png" class="icon"><br>
         <span id="stat-installateurs-m">100</span>
@@ -60,6 +45,24 @@
         <br>Nombre de marques de panneaux solaires
       </div>
     </div>
+    <div id="graph-row">
+      <div>
+        <canvas id="graph-installations" width="600" height="300"></canvas>
+        <div style="text-align:center;">Installations par année</div>
+        <br>
+      </div>
+      <div>
+        <canvas id="graph-fromage" width="600" height="300"></canvas>
+        <div style="text-align:center;">Installations par région</div>
+        <br>
+      </div>
+      <div>
+        <canvas id="graph-region-annee" width="600" height="350"></canvas>
+        <div style="text-align:center;">Installations par régions et par années</div>
+        <br>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <section id="recherche">
       <form id="search-form">
         <select id="select-marque" name="marque" required></select>
