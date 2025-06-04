@@ -86,7 +86,7 @@ function dbRequestInstallationsParRegionEtAnnee($db){
 
 function dbRequestNbInstallateurs($db){
     try{
-        $request = 'SELECT COUNT(*) AS nb_installateurs FROM installateur';
+        $request = 'SELECT COUNT(*) AS installateur FROM installateur';
         $statement = $db->prepare($request);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -98,9 +98,23 @@ function dbRequestNbInstallateurs($db){
     return $result;
 }
 
-function dbRequestNbMarquesPanneaux($db){
+function dbRequestMarqueOnduleurs($db){
     try{
-        $request = 'SELECT COUNT(*) AS nb_marques_panneaux FROM marque_panneau';
+        $request = 'SELECT COUNT(*) AS marque_onduleur FROM marque_onduleur';
+        $statement = $db->prepare($request);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbRequestMarquesPanneaux($db){
+    try{
+        $request = 'SELECT COUNT(*) AS marque_panneau FROM marque_panneau';
         $statement = $db->prepare($request);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);

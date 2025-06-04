@@ -50,12 +50,15 @@ function sendJsonData($data, $code){
 $type = $_GET['type'] ?? null;
 if ($type === 'stats') {
     $enregistrements = dbRequestEnregistrement($db);
-    $annee = dbRequestAnnee($db);
     $installateurs = dbRequestNbInstallateurs($db);
-    $panneaux = dbRequestNbMarquesPanneaux($db);
+    $onduleurs = dbRequestMarqueOnduleurs($db);
+    $panneaux = dbRequestMarquesPanneaux($db);
 
     sendJsonData([
         'enregistrements' => $enregistrements[0]['COUNT(id)'] ?? 0,
+        'installateurs' => $installateurs['installateur'] ?? 0,
+        'marques' => $onduleurs['marque_onduleur'] ?? 0,
+        'panneaux' => $panneaux['marque_panneau'] ?? 0
     ], 200);
     exit;
 }
