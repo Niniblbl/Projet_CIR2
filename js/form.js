@@ -1,3 +1,5 @@
+'use strict';
+
 window.onload = function() {
   fetch('../back/request.php?type=marque_ondul')
     .then(r => r.text())
