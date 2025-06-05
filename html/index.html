@@ -64,12 +64,27 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <section id="recherche">
-      <form id="search-form">
-        <select id="select-marque" name="marque" required></select>
-        <select id="select-panneau" name="panneau" required></select>
-        <select id="select-departement" name="departement" required></select>
-        <button type="submit">Rechercher</button>
-      </form>
+    <form id="search-form" class="recherche-form" method="GET" action="resultats.php">
+      <div class="select-group">
+        <label for="select-marque"><b>Marque de l'onduleur</b></label>
+          <select id="select-marque" name="marque_ondul" required>
+            <option value="">marque</option>
+          </select>
+      </div>
+      <div class="select-group">
+       <label for="select-panneau"><b>Marque du panneau</b></label>
+        <select id="select-panneau" name="marque_pan" required>
+          <option value="">marque</option>
+        </select>
+      </div>
+      <div class="select-group">
+        <label for="select-departement"><b>Département</b></label>
+        <select id="select-departement" name="dep" required>
+          <option value="">departement</option>
+        </select>
+      </div>
+      <button type="submit" class="recherche-btn">Rechercher</button>
+    </form>
       <div id="resultats" style="display:none;">
         <table>
           <thead>
@@ -92,5 +107,6 @@
     Made by Anita and Mael CIR2 2025
   </footer>
   <script src="../js/main.js"></script>
+  <script src="../js/form.js"></script>
 </body>
 </html>

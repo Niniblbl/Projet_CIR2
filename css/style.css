@@ -103,9 +103,19 @@ h2 {
 form#search-form,
 form#map-filters {
   display: flex;
+  flex-direction: row;
   gap: 16px;
   flex-wrap: wrap;
   margin-bottom: 24px;
+}
+
+.select-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px; 
+}
+.select-group label {
+  margin-bottom: 4px;
 }
 
 select, button {
@@ -202,7 +212,7 @@ footer {
     gap: 10px;
   }
   form#search-form, form#map-filters {
-    flex-direction: column;
+    flex-direction: row; /*ou column pour l'affichage des selects sur une colonne*/
     gap: 10px;
   }
 }
