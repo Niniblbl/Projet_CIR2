@@ -79,9 +79,17 @@ if ($type === 'marque_pan') {
     exit;
 }
 if ($type === 'dep') {
-    $stmt = $db->query('SELECT DISTINCT nom_departement FROM departement LIMIT 20');
+    $stmt = $db->query('SELECT DISTINCT nom_departement FROM departement ORDER BY RAND() LIMIT 20');
     while ($row = $stmt->fetch()) {
         echo '<option value="' . htmlspecialchars($row['nom_departement']) . '">' . htmlspecialchars($row['nom_departement']) . '</option>';
+    }
+    exit;
+}
+
+if ($type === 'annees') {
+    $stmt = $db->query('SELECT DISTINCT annee_install FROM batiment ORDER BY annee_install DESC LIMIT 20');
+    while ($row = $stmt->fetch()) {
+        echo '<option value="' . htmlspecialchars($row['annee_install']) . '">' . htmlspecialchars($row['annee_install']) . '</option>';
     }
     exit;
 }
@@ -99,5 +107,7 @@ if ($type === 'installations_par_region_et_annee') {
     $data = dbRequestInstallationsParRegionEtAnnee($db);
     sendJsonData($data, 200);
 }
+
+
 
 ?>
