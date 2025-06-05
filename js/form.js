@@ -17,17 +17,18 @@ window.onload = function() {
 document.getElementById('search-form').addEventListener('submit', function(e) {
   e.preventDefault();
 
-const marque = document.getElementById('select-marque').value;
-const panneau = document.getElementById('select-panneau').value;
-const departement = document.getElementById('select-departement').value;
+  const marque = document.getElementById('select-marque').value;
+  const panneau = document.getElementById('select-panneau').value;
+  const departement = document.getElementById('select-departement').value;
 
- fetch(`../back/request.php?type=recherche&marque_ondul=${encodeURIComponent(marque)}&marque_pan=${encodeURIComponent(panneau)}&dep=${encodeURIComponent(departement)}`)
+  fetch(`../back/request.php?type=recherche&marque_ondul=${encodeURIComponent(marque)}&marque_pan=${encodeURIComponent(panneau)}&dep=${encodeURIComponent(departement)}`)
     .then(r => r.json())
     .then(data => {
+      console.log(data);
       const tbody = document.getElementById('resultats-body');
       tbody.innerHTML = '';
       if (!data || data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5">Aucun résultat</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6">Aucun résultat</td></tr>';
       } else {
         data.forEach(row => {
           tbody.innerHTML += `
@@ -37,6 +38,7 @@ const departement = document.getElementById('select-departement').value;
               <td>${row.surface || ''}</td>
               <td>${row.puissance_crete || ''}</td>
               <td>${row.localisation || ''}</td>
+              <td></td>
             </tr>
           `;
         });

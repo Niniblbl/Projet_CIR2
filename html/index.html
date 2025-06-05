@@ -11,7 +11,7 @@
     <nav>
       <a href="index.html">Accueil </a>
       <a href="map.html">Carte</a>
-      <a href="#recherche">Recherche</a>
+      <a href="recherche.html">Recherche</a>
     </nav>
   </header>
   <main>
@@ -63,50 +63,10 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <section id="recherche">
-    <form id="search-form" class="recherche-form" method="GET" action="resultats.php">
-      <div class="select-group">
-        <label for="select-marque"><b>Marque de l'onduleur</b></label>
-          <select id="select-marque" name="marque_ondul" required>
-            <option value="">marque</option>
-          </select>
-      </div>
-      <div class="select-group">
-       <label for="select-panneau"><b>Marque du panneau</b></label>
-        <select id="select-panneau" name="marque_pan" required>
-          <option value="">marque</option>
-        </select>
-      </div>
-      <div class="select-group">
-        <label for="select-departement"><b>Département</b></label>
-        <select id="select-departement" name="dep" required>
-          <option value="">departement</option>
-        </select>
-      </div>
-      <button type="submit" class="recherche-btn">Rechercher</button>
-    </form>
-      <div id="resultats" style="display:none;">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Nombre Panneaux</th>
-              <th>Surface</th>
-              <th>Puissance crête</th>
-              <th>Localisation</th>
-            </tr>
-          </thead>
-          <tbody id="resultats-body">
-            <!-- Résultats JS ici -->
-          </tbody>
-        </table>
-      </div>
-    </section>
   </main>
   <footer>
     Made by Anita and Mael CIR2 2025
   </footer>
   <script src="../js/main.js"></script>
-  <script src="../js/form.js"></script>
 </body>
 </html>

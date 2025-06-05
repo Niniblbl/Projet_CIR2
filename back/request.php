@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once('../back/database.php');
 
 //connexion à la base de données
@@ -110,12 +113,51 @@ if ($type === 'installations_par_region_et_annee') {
     sendJsonData($data, 200);
 }
 
-sendJsonData([
-    'enregistrements' => $enregistrements[0]['COUNT(id)'] ?? 0,
-    'installateurs' => $installateurs['installateur'] ?? 0,
-    'marques' => $onduleurs['marque_onduleur'] ?? 0,
-    'panneaux' => $panneaux['marque_panneau'] ?? 0 ], 200);
+if ($type === 'recherche') {
+    $marqueOndul = $_GET['marque_ondul'] ?? '';
+    $marquePan = $_GET['marque_pan'] ?? '';
+    $dep = $_GET['dep'] ?? '';
+
+    $sql = "SELECT CONCAT(b.mois_install, '/', b.annee_install) AS date,
+                b.nb_panneaux,
+                b.surface,
+                b.puissance_crete,
+                r.nom_region AS localisation
+            FROM batiment b
+            JOIN commune_france c ON b.locality = c.nom_commune
+            JOIN region r ON c.code_region = r.code_region
+            WHERE 1";
+    $params = [];
+
+    if ($marqueOndul !== '') {
+        $sql .= " AND b.marque_onduleur = ?";
+        $params[] = $marqueOndul;
+    }
+    if ($marquePan !== '') {
+        $sql .= " AND b.marque_panneau = ?";
+        $params[] = $marquePan;
+    }
+    if ($dep !== '') {
+        $sql .= " AND b.departement = ?";
+        $params[] = $dep;
+    }
+    $sql .= " LIMIT 100"; 
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    sendJsonData($resultats, 200);
     exit;
+}
+
+
+
+//sendJsonData([
+   // 'enregistrements' => $enregistrements[0]['COUNT(id)'] ?? 0,
+   // 'installateurs' => $installateurs['installateur'] ?? 0,
+    //'marques' => $onduleurs['marque_onduleur'] ?? 0,
+   // 'panneaux' => $panneaux['marque_panneau'] ?? 0 ], 200);
+ //   exit;
 
 
 
