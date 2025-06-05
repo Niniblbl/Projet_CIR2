@@ -166,5 +166,49 @@ if ($type === 'batiments_coords') {
     exit;
 }
 
+// Affichage des 100 premières installations
+if ($type === 'all_installations') {
+    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 100;
+    $stmt = $db->prepare('SELECT id, locality, marque_panneau, panneau_modele, nb_panneaux, marque_onduleur, modele_onduleur, nb_onduleur, annee_install, mois_install, puissance_crete, surface, lat, lon FROM batiment LIMIT :limit');
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    sendJsonData($result, 200);
+    exit;
+}
+
+// Ajout d'une installation
+if ($type === 'add_installation') {
+    $fields = ['locality','marque_panneau','panneau_modele','nb_panneaux','marque_onduleur','modele_onduleur','nb_onduleur','annee_install','mois_install','puissance_crete','surface','lat','lon'];
+    $values = [];
+    foreach ($fields as $f) { $values[$f] = $_POST[$f] ?? null; }
+    $sql = "INSERT INTO batiment (".implode(',',$fields).") VALUES (:".implode(',:',$fields).")";
+    $stmt = $db->prepare($sql);
+    $stmt->execute($values);
+    sendJsonData(['success'=>true], 200);
+    exit;
+}
+
+// Modification d'une installation
+if ($type === 'update_installation') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $fields = ['locality','marque_panneau','panneau_modele','nb_panneaux','marque_onduleur','modele_onduleur','nb_onduleur','annee_install','mois_install','puissance_crete','surface','lat','lon'];
+    $set = [];
+    foreach ($fields as $f) { if(isset($data[$f])) $set[] = "$f = :$f"; }
+    $data['id'] = $data['id'] ?? null;
+    $sql = "UPDATE batiment SET ".implode(', ',$set)." WHERE id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->execute($data);
+    sendJsonData(['success'=>true], 200);
+    exit;
+}
+
+// Suppression d'une installation
+if ($type === 'delete_installation' && !empty($_GET['id'])) {
+    $stmt = $db->prepare('DELETE FROM batiment WHERE id = :id');
+    $stmt->execute(['id' => $_GET['id']]);
+    sendJsonData(['success'=>true], 200);
+    exit;
+}
 
 ?>

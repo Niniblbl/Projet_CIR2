@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Administration des installations</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="back.css">
+</head>
+<body>
+  <header>
+    <img src="../images/logo.png" alt="Logo" id="logo">
+    <nav>
+      <a href="../html/index.html">Accueil</a>
+      <a href="../html/map.html">Carte</a>
+      <a href="../html/index.html#recherche">Recherche</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Administration des installations</h1>
+    <section>
+      <h2>Ajouter une installation</h2>
+      <form id="add-form">
+        <input type="text" name="locality" placeholder="Commune" required>
+        <input type="text" name="marque_panneau" placeholder="Marque panneau" required>
+        <input type="text" name="modele_panneau" placeholder="Modèle panneau">
+        <input type="number" name="nb_panneaux" placeholder="Nombre panneaux">
+        <input type="text" name="marque_onduleur" placeholder="Marque onduleur">
+        <input type="text" name="modele_onduleur" placeholder="Modèle onduleur">
+        <input type="number" name="nb_onduleur" placeholder="Nombre onduleurs">
+        <input type="number" name="annee_install" placeholder="Année install">
+        <input type="text" name="mois_install" placeholder="Mois install">
+        <input type="number" name="puissance_crete" placeholder="Puissance crête">
+        <input type="number" name="surface" placeholder="Surface">
+        <input type="text" name="lat" placeholder="Latitude">
+        <input type="text" name="lon" placeholder="Longitude">
+        <button type="submit">Ajouter</button>
+      </form>
+    </section>
+    <section>
+      <h2>Liste des installations (100 max)</h2>
+      <div style="overflow-x:auto;">
+        <table id="table-installations">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Commune</th>
+              <th>Marque panneau</th>
+              <th>Modèle panneau</th>
+              <th>Nombre panneaux</th>
+              <th>Marque onduleur</th>
+              <th>Modèle onduleur</th>
+              <th>Nombre onduleurs</th>
+              <th>Année install</th>
+              <th>Mois install</th>
+              <th>Puissance crête</th>
+              <th>Surface</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer>
+    Made by Anita and Mael CIR2 2025
+  </footer>
+  <script src="back.js"></script>
+</body>
+</html>
