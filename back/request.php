@@ -98,20 +98,19 @@ if ($type === 'annees') {
     exit;
 }
 
-//infos complémentaires
-if ($type=== 'batiment_details'){
-    
-}
+
 
 // Graphiques
 if ($type === 'installations_par_annee') {
     $iannee = dbRequestInstallationsParAnnee($db);
     sendJsonData($iannee, 200);
 }
+
 if ($type === 'installations_par_region') {
     $regions = dbRequestInstallationsParRegion($db);
     sendJsonData($regions, 200);
 }
+
 if ($type === 'installations_par_region_et_annee') {
     $data = dbRequestInstallationsParRegionEtAnnee($db);
     sendJsonData($data, 200);
@@ -119,13 +118,11 @@ if ($type === 'installations_par_region_et_annee') {
 
 if ($type === 'batiments_coords') {
     $params = [];
-
     $sql = 'SELECT b.lat, b.lon, b.id
         FROM batiment b
         JOIN commune_france c ON c.nom_commune = b.locality
         JOIN departement d ON d.code_departement = c.code_departement
         WHERE b.lat IS NOT NULL AND b.lon IS NOT NULL';
-
     if (!empty($_GET['annee'])) {
         $sql .= ' AND b.annee_install = :annee';
         $params['annee'] = $_GET['annee'];
@@ -143,5 +140,6 @@ if ($type === 'batiments_coords') {
     echo json_encode($result);
     exit;
 }
+
 
 ?>
