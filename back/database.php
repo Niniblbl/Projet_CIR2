@@ -1,6 +1,6 @@
 <?php 
 
-require_once('../php/login.php');
+require_once('../back/login.php');
 // Définit les constantes de connexion à la base de données
 
 //Etablit une connexion à la base de données
