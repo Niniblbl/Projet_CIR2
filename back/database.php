@@ -125,4 +125,18 @@ function dbRequestMarquesPanneaux($db){
     }
     return $result;
 }
+
+function dbRequestnbPanneaux($db,$id){
+    try{
+        $request = 'SELECT nb_panneaux FROM batiment WHERE id = :id'
+        $statement = $db->prepare($request);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
 ?>

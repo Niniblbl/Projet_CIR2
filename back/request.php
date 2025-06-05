@@ -1,6 +1,10 @@
 <?php
 require_once('../back/database.php');
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 //connexion à la base de données
 $db = dbConnect();
 if (!$db)
@@ -94,6 +98,11 @@ if ($type === 'annees') {
     exit;
 }
 
+//infos complémentaires
+if ($type=== 'batiment_details'){
+    
+}
+
 // Graphiques
 if ($type === 'installations_par_annee') {
     $iannee = dbRequestInstallationsParAnnee($db);
@@ -108,6 +117,31 @@ if ($type === 'installations_par_region_et_annee') {
     sendJsonData($data, 200);
 }
 
+if ($type === 'batiments_coords') {
+    $params = [];
 
+    $sql = 'SELECT b.lat, b.lon, b.id
+        FROM batiment b
+        JOIN commune_france c ON c.nom_commune = b.locality
+        JOIN departement d ON d.code_departement = c.code_departement
+        WHERE b.lat IS NOT NULL AND b.lon IS NOT NULL';
+
+    if (!empty($_GET['annee'])) {
+        $sql .= ' AND b.annee_install = :annee';
+        $params['annee'] = $_GET['annee'];
+    }
+    if (!empty($_GET['departement'])) {
+        $sql .= ' AND d.nom_departement = :departement';
+        $params['departement'] = $_GET['departement'];
+    }
+    $sql .= ' ORDER BY RAND() LIMIT 20';
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($result);
+    exit;
+}
 
 ?>
