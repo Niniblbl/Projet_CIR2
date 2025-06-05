@@ -5,9 +5,6 @@
   <title>Carte des installations</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/leaflet.css">
-  <style>
-    #map { height: 400px; width: 100%; }
-  </style>
 </head>
 <body>
   <header>
@@ -18,94 +15,33 @@
       <a href="index.html#recherche">Recherche</a>
     </nav>
   </header>
-  <main>
-    <h1>Maquette Panneaux solaires</h1>
-    <h2>Carte des installations:</h2>
-    <div id="map"></div>
-    <script src="../js/leaflet.js"></script>
-    <script src="../js/map.js"></script>
-    <form id="map-selects">
-      <div class="form-row">
-        <div class="form-label">
-          <label for="select-annee-map">Année</label>
-          <select id="select-annee-map" name="annee" aria-placeholder="ex : 2025"></select>
-        </div>
-        <div class="form-label">
-          <label for="select-departement-map">Département</label>
-          <select id="select-departement-map" name="departement" aria-placeholder="ex : Ain"></select>
-        </div>
-      </div>
-    </form>
-    <form id="map-filters" >
-      <div class="form-row">
-        <div class="form-label">
-          <label>Longitude</label>
-          <input type="text" placeholder="ex: 1.51">
-        </div>
-        <div class="form-label">
-          <label>Latitude</label>
-          <input type="text" placeholder="ex: 43.51">
-        </div>
-        <div class="form-label">
-          <label>Nombre de panneaux</label>
-          <input type="text" placeholder="ex: 10">
-        </div>
-        <div class="form-label">
-          <label>Nombre de onduleurs</label>
-          <input type="text" placeholder=" ex: 4">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <label>Année d'installation</label>
-          <input type="text" placeholder="ex: 2025">
-        </div>
-        <div class="form-label">
-          <label>Mois d'installation</label>
-          <input type="text" placeholder=" ex: 06">
-        </div>
-        <div class="form-label">
-          <label>Marque de panneaux</label>
-          <input type="text" placeholder="ex: Mitsubishi">
-        </div>
-        <div class="form-label">
-          <label>Marque de onduleurs</label>
-          <input type="text" placeholder="ex: SMA">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <label>Région</label>
-          <input type="text" placeholder="ex: Bretagne">
-        </div>
-        <div class="form-label">
-          <label>Département</label>
-          <input type="text" placeholder="ex: Ain">
-        </div>
-        <div class="form-label">
-          <label>Modèle de panneaux</label>
-          <input type="text" placeholder="ex: PV-MF175 TD41">
-        </div>
-        <div class="form-label">
-          <label>Modèle de onduleurs</label>
-          <input type="text" placeholder="ex: Sunny Boy 2500">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <label>Surface</label>
-          <input type="text" placeholder="ex: 21">
-        </div>
-        <div class="form-label">
-          <label>Puissance crête</label>
-          <input type="text" placeholder="ex: 2720">
-        </div>
-      </div>
-    </form>
-    <button type="submit">Insérer</button>
+  <main class="main-map">
+    <div class="map-layout">
+      <aside class="map-sidebar">
+        <h2>Recherche</h2>
+        <form id="map-selects" autocomplete="off">
+          <div class="form-label">
+            <label for="select-annee-map">Année</label>
+            <select id="select-annee-map" name="annee" autocomplete="off"></select>
+          </div>
+          <div class="form-label">
+            <label for="select-departement-map">Département</label>
+            <select id="select-departement-map" name="departement" autocomplete="off"></select>
+          </div>
+          <button type="button" id="btn-map">Soumettre</button>
+        </form>
+      </aside>
+      <section class="map-content">
+        <h1>Maquette Panneaux solaires</h1>
+        <h2>Carte des installations :</h2>
+        <div id="map"></div>
+      </section>
+    </div>
   </main>
   <footer>
     Made by Anita and Mael CIR2 2025
   </footer>
+  <script src="../js/leaflet.js"></script>
+  <script src="../js/map.js"></script>
 </body>
 </html>

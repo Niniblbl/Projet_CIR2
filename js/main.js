@@ -3,7 +3,7 @@
 
 async function requestData() {
     try {
-        const response = await fetch('../back/request.php?type=stats');
+        const response = await fetch('../php/request.php?type=stats');
         if (!response.ok) {
             displayErrors(response.status);
             return;
@@ -24,7 +24,7 @@ async function requestData() {
 requestData();
 
 async function drawGraphInstallationsParAnnee() {
-    const response = await fetch('../back/request.php?type=installations_par_annee');
+    const response = await fetch('../php/request.php?type=installations_par_annee');
     const data = await response.json();
     const labels = data.map(row => row.annee_install);
     const values = data.map(row => row.nb);
@@ -45,7 +45,7 @@ async function drawGraphInstallationsParAnnee() {
 drawGraphInstallationsParAnnee();
 
 async function drawGraphFromageRegions() {
-    const response = await fetch('../back/request.php?type=installations_par_region');
+    const response = await fetch('../php/request.php?type=installations_par_region');
     const data = await response.json();
     const labels = data.map(row => row.nom_region);
     const values = data.map(row => Number(row.nb));
@@ -73,7 +73,7 @@ async function drawGraphFromageRegions() {
 drawGraphFromageRegions();
 
 async function drawGraphRegionAnnee() {
-    const response = await fetch('../back/request.php?type=installations_par_region_et_annee');
+    const response = await fetch('../php/request.php?type=installations_par_region_et_annee');
     const data = await response.json();
 
     // Récupère toutes les années et régions distinctes

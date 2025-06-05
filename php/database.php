@@ -1,6 +1,6 @@
 <?php 
 
-require_once('../back/login.php');
+require_once('../php/login.php');
 // Définit les constantes de connexion à la base de données
 
 //Etablit une connexion à la base de données
@@ -115,6 +115,20 @@ function dbRequestMarqueOnduleurs($db){
 function dbRequestMarquesPanneaux($db){
     try{
         $request = 'SELECT COUNT(*) AS marque_panneau FROM marque_panneau';
+        $statement = $db->prepare($request);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $exception){
+        error_log('Request error: '.$exception->getMessage());
+        return false;
+    }
+    return $result;
+}
+
+function dbRequestnbPanneaux($db,$id){
+    try{
+        $request = 'SELECT nb_panneaux FROM batiment WHERE id = :id';
         $statement = $db->prepare($request);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
