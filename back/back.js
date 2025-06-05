@@ -10,7 +10,7 @@ function loadTable() {
             <td>${row.id || ''}</td>
             <td contenteditable="true" class="edit" data-field="locality">${row.locality || ''}</td>
             <td contenteditable="true" class="edit" data-field="marque_panneau">${row.marque_panneau || ''}</td>
-            <td contenteditable="true" class="edit" data-field="modele_panneau">${row.modele_panneau || ''}</td>
+            <td contenteditable="true" class="edit" data-field="modele_panneau">${row.panneau_modele || ''}</td>
             <td contenteditable="true" class="edit" data-field="nb_panneaux">${row.nb_panneaux || ''}</td>
             <td contenteditable="true" class="edit" data-field="marque_onduleur">${row.marque_onduleur || ''}</td>
             <td contenteditable="true" class="edit" data-field="modele_onduleur">${row.modele_onduleur || ''}</td>
