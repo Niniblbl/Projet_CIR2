@@ -48,33 +48,58 @@ function sendJsonData($data, $code){
 }
 
 $type = $_GET['type'] ?? null;
+
 if ($type === 'stats') {
     $enregistrements = dbRequestEnregistrement($db);
     $installateurs = dbRequestNbInstallateurs($db);
     $onduleurs = dbRequestMarqueOnduleurs($db);
     $panneaux = dbRequestMarquesPanneaux($db);
+}
 
-    sendJsonData([
-        'enregistrements' => $enregistrements[0]['COUNT(id)'] ?? 0,
-        'installateurs' => $installateurs['installateur'] ?? 0,
-        'marques' => $onduleurs['marque_onduleur'] ?? 0,
-        'panneaux' => $panneaux['marque_panneau'] ?? 0
-    ], 200);
+if ($type === 'marque_ondul') {
+    $stmt = $db->query('SELECT DISTINCT marque_onduleur FROM marque_onduleur LIMIT 20');
+    while ($row = $stmt->fetch()) {
+        echo '<option value="' . htmlspecialchars($row['marque_onduleur']) . '">' . htmlspecialchars($row['marque_onduleur']) . '</option>';
+    }
     exit;
 }
+if ($type === 'marque_pan') {
+    $stmt = $db->query('SELECT DISTINCT marque_panneau FROM marque_panneau LIMIT 20');
+    while ($row = $stmt->fetch()) {
+        echo '<option value="' . htmlspecialchars($row['marque_panneau']) . '">' . htmlspecialchars($row['marque_panneau']) . '</option>';
+    }
+    exit;
+}
+if ($type === 'dep') {
+    $stmt = $db->query('SELECT DISTINCT nom_departement FROM departement LIMIT 20');
+    while ($row = $stmt->fetch()) {
+        echo '<option value="' . htmlspecialchars($row['nom_departement']) . '">' . htmlspecialchars($row['nom_departement']) . '</option>';
+    }
+    exit;
+}    
+
 if ($type === 'installations_par_annee') {
     $iannee = dbRequestInstallationsParAnnee($db);
     sendJsonData($iannee, 200);
     exit;
 }
+
 if ($type === 'installations_par_region') {
     $regions = dbRequestInstallationsParRegion($db);
     sendJsonData($regions, 200);
     exit;
 }
+
 if ($type === 'installations_par_region_et_annee') {
     $data = dbRequestInstallationsParRegionEtAnnee($db);
     sendJsonData($data, 200);
     exit;
 }
+
+sendJsonData([
+    'enregistrements' => $enregistrements[0]['COUNT(id)'] ?? 0,
+    'installateurs' => $installateurs['installateur'] ?? 0,
+    'marques' => $onduleurs['marque_onduleur'] ?? 0,
+    'panneaux' => $panneaux['marque_panneau'] ?? 0 ], 200);
+    exit;
 ?>
