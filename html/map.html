@@ -15,90 +15,28 @@
       <a href="index.html#recherche">Recherche</a>
     </nav>
   </header>
-  <main>
-    <h1>Maquette Panneaux solaires</h1>
-    <h2>Carte des installations :</h2>
-    <div id="map"></div>
-    <form id="map-selects" autocomplete="off">
-      <div class="form-row">
-        <div class="form-label">
-          <label for="select-annee-map">Année</label>
-          <select id="select-annee-map" name="annee" autocomplete="off"></select>
-        </div>
-        <div class="form-label">
-          <label for="select-departement-map">Département</label>
-          <select id="select-departement-map" name="departement" autocomplete="off"></select>
-        </div>
-      </div>
-      <button type="button" id="btn-map">Soumettre</button>
-    </form>
-    <form id="map-filters" autocomplete="off">
-      <div class="form-row">
-        <div class="form-label">
-          <label for="longitude">Longitude</label>
-          <input type="text" id="longitude" name="longitude" placeholder="ex: 1.51" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="latitude">Latitude</label>
-          <input type="text" id="latitude" name="latitude" placeholder="ex: 43.51" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="nb_panneaux">Nombre de panneaux</label>
-          <input type="text" id="nb_panneaux" name="nb_panneaux" placeholder="ex: 10" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="nb_onduleurs">Nombre de onduleurs</label>
-          <input type="text" id="nb_onduleurs" name="nb_onduleurs" placeholder="ex: 4" autocomplete="off">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <label for="annee_install">Année d'installation</label>
-          <input type="text" id="annee_install" name="annee_install" placeholder="ex: 2025" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="mois_install">Mois d'installation</label>
-          <input type="text" id="mois_install" name="mois_install" placeholder="ex: 06" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="marque_panneaux">Marque de panneaux</label>
-          <input type="text" id="marque_panneaux" name="marque_panneaux" placeholder="ex: Mitsubishi" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="marque_onduleurs">Marque de onduleurs</label>
-          <input type="text" id="marque_onduleurs" name="marque_onduleurs" placeholder="ex: SMA" autocomplete="off">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <label for="region">Région</label>
-          <input type="text" id="region" name="region" placeholder="ex: Bretagne" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="departement_input">Département</label>
-          <input type="text" id="departement_input" name="departement_input" placeholder="ex: Ain" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="modele_panneaux">Modèle de panneaux</label>
-          <input type="text" id="modele_panneaux" name="modele_panneaux" placeholder="ex: PV-MF175 TD41" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="modele_onduleurs">Modèle de onduleurs</label>
-          <input type="text" id="modele_onduleurs" name="modele_onduleurs" placeholder="ex: Sunny Boy 2500" autocomplete="off">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <label for="surface">Surface</label>
-          <input type="text" id="surface" name="surface" placeholder="ex: 21" autocomplete="off">
-        </div>
-        <div class="form-label">
-          <label for="puissance">Puissance crête</label>
-          <input type="text" id="puissance" name="puissance" placeholder="ex: 2720" autocomplete="off">
-        </div>
-      </div>
-    </form>
-    <button type="submit" id="btn-inserer">Insérer</button>
+  <main class="main-map">
+    <div class="map-layout">
+      <aside class="map-sidebar">
+        <h2>Recherche</h2>
+        <form id="map-selects" autocomplete="off">
+          <div class="form-label">
+            <label for="select-annee-map">Année</label>
+            <select id="select-annee-map" name="annee" autocomplete="off"></select>
+          </div>
+          <div class="form-label">
+            <label for="select-departement-map">Département</label>
+            <select id="select-departement-map" name="departement" autocomplete="off"></select>
+          </div>
+          <button type="button" id="btn-map">Soumettre</button>
+        </form>
+      </aside>
+      <section class="map-content">
+        <h1>Maquette Panneaux solaires</h1>
+        <h2>Carte des installations :</h2>
+        <div id="map"></div>
+      </section>
+    </div>
   </main>
   <footer>
     Made by Anita and Mael CIR2 2025

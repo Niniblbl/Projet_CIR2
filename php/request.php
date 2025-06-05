@@ -1,5 +1,5 @@
 <?php
-require_once('../back/database.php');
+require_once('../php/database.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -98,7 +98,31 @@ if ($type === 'annees') {
     exit;
 }
 
-
+//details 
+$id = $_GET['id'] ?? null;
+if ($type === 'batiment_details' && !empty($id)) {
+    $stmt = $db->prepare('SELECT 
+        d.nom_departement,
+        b.marque_panneau,
+        b.nb_panneaux,
+        b.mois_install,
+        b.panneau_modele,
+        b.nb_onduleur,
+        b.annee_install,
+        b.marque_onduleur,
+        b.puissance_crete,
+        b.surface,
+        b.modele_onduleur
+      FROM batiment b
+      JOIN commune_france c ON c.nom_commune = b.locality
+      JOIN departement d ON d.code_departement = c.code_departement
+      WHERE b.id = :id
+      LIMIT 1');
+    $stmt->execute(['id' => $id]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    sendJsonData($result, 200);
+    exit;
+}
 
 // Graphiques
 if ($type === 'installations_par_annee') {
@@ -123,6 +147,7 @@ if ($type === 'batiments_coords') {
         JOIN commune_france c ON c.nom_commune = b.locality
         JOIN departement d ON d.code_departement = c.code_departement
         WHERE b.lat IS NOT NULL AND b.lon IS NOT NULL';
+
     if (!empty($_GET['annee'])) {
         $sql .= ' AND b.annee_install = :annee';
         $params['annee'] = $_GET['annee'];

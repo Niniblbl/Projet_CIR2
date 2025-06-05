@@ -1,15 +1,15 @@
 'use strict';
 
 window.onload = function() {
-  fetch('../back/request.php?type=marque_ondul')
+  fetch('../php/request.php?type=marque_ondul')
     .then(r => r.text())
     .then(html => document.getElementById('select-marque').innerHTML = '<option value="">-- Choisir une marque --</option>' + html);
 
-  fetch('../back/request.php?type=marque_pan')
+  fetch('../php/request.php?type=marque_pan')
     .then(r => r.text())
     .then(html => document.getElementById('select-panneau').innerHTML = '<option value="">-- Choisir un panneau --</option>' + html);
 
-  fetch('../back/request.php?type=dep')
+  fetch('../php/request.php?type=dep')
     .then(r => r.text())
     .then(html => document.getElementById('select-departement').innerHTML = '<option value="">-- Choisir un département --</option>' + html);
 };
@@ -21,7 +21,7 @@ const marque = document.getElementById('select-marque').value;
 const panneau = document.getElementById('select-panneau').value;
 const departement = document.getElementById('select-departement').value;
 
- fetch(`../back/request.php?type=recherche&marque_ondul=${encodeURIComponent(marque)}&marque_pan=${encodeURIComponent(panneau)}&dep=${encodeURIComponent(departement)}`)
+ fetch(`../php/request.php?type=recherche&marque_ondul=${encodeURIComponent(marque)}&marque_pan=${encodeURIComponent(panneau)}&dep=${encodeURIComponent(departement)}`)
     .then(r => r.json())
     .then(data => {
       const tbody = document.getElementById('resultats-body');
