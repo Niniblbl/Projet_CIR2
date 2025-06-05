@@ -52,7 +52,7 @@ async function drawGraphFromageRegions() {
 
     const ctx = document.getElementById('graph-fromage').getContext('2d');
     new Chart(ctx, {
-        type: 'pie', // ou 'doughnut' pour un donut
+        type: 'pie',
         data: {
             labels: labels,
             datasets: [{

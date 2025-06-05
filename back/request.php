@@ -46,16 +46,24 @@ function sendJsonData($data, $code){
         echo json_encode(['error' => 'Bad Request']);
     }
 }
-
 $type = $_GET['type'] ?? null;
 
+// Statistiques globales
 if ($type === 'stats') {
     $enregistrements = dbRequestEnregistrement($db);
     $installateurs = dbRequestNbInstallateurs($db);
     $onduleurs = dbRequestMarqueOnduleurs($db);
     $panneaux = dbRequestMarquesPanneaux($db);
+
+    sendJsonData([
+        'enregistrements' => $enregistrements[0]['COUNT(id)'] ?? 0,
+        'installateurs'   => $installateurs['installateur'] ?? 0,
+        'marques'         => $onduleurs['marque_onduleur'] ?? 0,
+        'panneaux'        => $panneaux['marque_panneau'] ?? 0
+    ], 200);
 }
 
+// Listes pour les selects
 if ($type === 'marque_ondul') {
     $stmt = $db->query('SELECT DISTINCT marque_onduleur FROM marque_onduleur LIMIT 20');
     while ($row = $stmt->fetch()) {
@@ -71,29 +79,35 @@ if ($type === 'marque_pan') {
     exit;
 }
 if ($type === 'dep') {
-    $stmt = $db->query('SELECT DISTINCT nom_departement FROM departement LIMIT 20');
+    $stmt = $db->query('SELECT DISTINCT nom_departement FROM departement ORDER BY RAND() LIMIT 20');
     while ($row = $stmt->fetch()) {
         echo '<option value="' . htmlspecialchars($row['nom_departement']) . '">' . htmlspecialchars($row['nom_departement']) . '</option>';
     }
     exit;
-}    
+}
 
+if ($type === 'annees') {
+    $stmt = $db->query('SELECT DISTINCT annee_install FROM batiment ORDER BY annee_install DESC LIMIT 20');
+    while ($row = $stmt->fetch()) {
+        echo '<option value="' . htmlspecialchars($row['annee_install']) . '">' . htmlspecialchars($row['annee_install']) . '</option>';
+    }
+    exit;
+}
+
+// Graphiques
 if ($type === 'installations_par_annee') {
     $iannee = dbRequestInstallationsParAnnee($db);
     sendJsonData($iannee, 200);
-    exit;
 }
 
 if ($type === 'installations_par_region') {
     $regions = dbRequestInstallationsParRegion($db);
     sendJsonData($regions, 200);
-    exit;
 }
 
 if ($type === 'installations_par_region_et_annee') {
     $data = dbRequestInstallationsParRegionEtAnnee($db);
     sendJsonData($data, 200);
-    exit;
 }
 
 sendJsonData([
@@ -102,4 +116,7 @@ sendJsonData([
     'marques' => $onduleurs['marque_onduleur'] ?? 0,
     'panneaux' => $panneaux['marque_panneau'] ?? 0 ], 200);
     exit;
+
+
+
 ?>
