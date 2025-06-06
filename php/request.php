@@ -83,9 +83,9 @@ if ($type === 'marque_pan') {
     exit;
 }
 if ($type === 'dep') {
-    $stmt = $db->query('SELECT DISTINCT nom_departement FROM departement ORDER BY RAND() LIMIT 20');
+    $stmt = $db->query('SELECT DISTINCT nom_departement,code_departement FROM departement ORDER BY RAND() LIMIT 20');
     while ($row = $stmt->fetch()) {
-        echo '<option value="' . htmlspecialchars($row['nom_departement']) . '">' . htmlspecialchars($row['nom_departement']) . '</option>';
+        echo '<option value="' . htmlspecialchars($row['code_departement']) . '">' . htmlspecialchars($row['nom_departement']) . '</option>';
     }
     exit;
 }
@@ -144,7 +144,7 @@ if ($type === 'batiments_coords') {
     $params = [];
     $sql = 'SELECT b.lat, b.lon, b.id
         FROM batiment b
-        JOIN commune_france c ON c.nom_commune = b.locality
+        JOIN commune_france c ON c.code_insee = b.code_insee
         JOIN departement d ON d.code_departement = c.code_departement
         WHERE b.lat IS NOT NULL AND b.lon IS NOT NULL';
 
@@ -153,7 +153,7 @@ if ($type === 'batiments_coords') {
         $params['annee'] = $_GET['annee'];
     }
     if (!empty($_GET['departement'])) {
-        $sql .= ' AND d.nom_departement = :departement';
+        $sql .= ' AND d.code_departement = :departement';
         $params['departement'] = $_GET['departement'];
     }
     $sql .= ' ORDER BY RAND() LIMIT 20';
@@ -169,6 +169,13 @@ if ($type === 'batiments_coords') {
 // Affichage des 100 premières installations
 if ($type === 'all_installations') {
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 100;
+    $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
+
+    // Total count
+    $stmt = $db->query('SELECT COUNT(*) FROM batiment');
+    $total = $stmt->fetchColumn();
+
+    // Data
     $sql = 'SELECT 
         b.id,
         b.locality,
@@ -192,21 +199,44 @@ if ($type === 'all_installations') {
       LEFT JOIN commune_france c ON c.nom_commune = b.locality
       LEFT JOIN departement d ON d.code_departement = c.code_departement
       LEFT JOIN region r ON r.code_region = c.code_region
-      LIMIT :limit';
+      LIMIT :limit OFFSET :offset';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    sendJsonData($result, 200);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    sendJsonData(['rows' => $rows, 'total' => $total], 200);
     exit;
 }
 
 // Ajout d'une installation
 if ($type === 'add_installation') {
-    $fields = ['locality','marque_panneau','panneau_modele','nb_panneaux','marque_onduleur','modele_onduleur','nb_onduleur','annee_install','mois_install','puissance_crete','surface','lat','lon'];
+    $fields = ['locality','marque_panneau','panneau_modele','nb_panneaux','marque_onduleur','modele_onduleur','nb_onduleur','annee_install','mois_install','puissance_crete','surface','lat','lon', 'installateur'];
     $values = [];
-    foreach ($fields as $f) { $values[$f] = $_POST[$f] ?? null; }
-    $sql = "INSERT INTO batiment (".implode(',',$fields).") VALUES (:".implode(',:',$fields).")";
+    foreach ($fields as $f) {
+        $values[$f] = $_POST[$f] ?? null;
+        // Pour lat et lon, si vide, force à null
+        if (($f === 'lat' || $f === 'lon') && ($values[$f] === '' || $values[$f] === null)) {
+            $values[$f] = null;
+        }
+    }
+
+    // Cherche le code_insee ET le nom officiel de la commune
+    $stmt = $db->prepare('SELECT code_insee, nom_commune FROM commune_france WHERE nom_commune = ? LIMIT 1');
+    $stmt->execute([$values['locality']]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row || empty($row['code_insee'])) {
+        sendJsonData(['success'=>false, 'error'=>'Commune inconnue, code INSEE introuvable pour "'.$values['locality'].'"'], 400);
+        exit;
+}
+
+// Ajoute le code_insee et remplace locality par le nom officiel
+$values['code_insee'] = $row['code_insee'];
+$values['locality'] = $row['nom_commune'];
+
+    $sql = "INSERT INTO batiment (".implode(',',$fields).",code_insee) VALUES (:".implode(',:',$fields).",:code_insee)";
     $stmt = $db->prepare($sql);
     $stmt->execute($values);
     sendJsonData(['success'=>true], 200);
@@ -216,13 +246,19 @@ if ($type === 'add_installation') {
 // Modification d'une installation
 if ($type === 'update_installation') {
     $data = json_decode(file_get_contents('php://input'), true);
-    $fields = ['locality','marque_panneau','panneau_modele','nb_panneaux','marque_onduleur','modele_onduleur','nb_onduleur','annee_install','mois_install','puissance_crete','surface','lat','lon'];
+    $fields = ['locality','marque_panneau','panneau_modele','nb_panneaux','marque_onduleur','modele_onduleur','nb_onduleur','annee_install','mois_install','puissance_crete','surface','lat','lon','installateur'];
     $set = [];
-    foreach ($fields as $f) { if(isset($data[$f])) $set[] = "$f = :$f"; }
-    $data['id'] = $data['id'] ?? null;
+    $params = [];
+    foreach ($fields as $f) {
+        if(isset($data[$f])) {
+            $set[] = "$f = :$f";
+            $params[$f] = $data[$f];
+        }
+    }
+    $params['id'] = $data['id'] ?? null;
     $sql = "UPDATE batiment SET ".implode(', ',$set)." WHERE id = :id";
     $stmt = $db->prepare($sql);
-    $stmt->execute($data);
+    $stmt->execute($params);
     sendJsonData(['success'=>true], 200);
     exit;
 }
@@ -246,7 +282,7 @@ if ($type === 'recherche') {
                 b.puissance_crete,
                 r.nom_region AS localisation
             FROM batiment b
-            JOIN commune_france c ON b.locality = c.nom_commune
+            JOIN commune_france c ON b.code_insee = c.code_insee
             JOIN region r ON c.code_region = r.code_region
             JOIN departement d ON c.code_departement = d.code_departement
             WHERE 1";
@@ -261,7 +297,7 @@ if ($type === 'recherche') {
         $params[] = $marquePan;
     }
     if ($dep !== '') {
-        $sql .= " AND d.nom_departement = ?";
+        $sql .= " AND d.code_departement = ?";
         $params[] = $dep;
     }
     $sql .= " LIMIT 100"; 

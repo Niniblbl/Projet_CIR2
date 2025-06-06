@@ -1,20 +1,23 @@
-function loadTable() {
-  fetch('../php/request.php?type=all_installations&limit=100')
+'use strict';
+let currentPage = 1;
+const perPage = 100;
+
+function loadTable(page = 1) {
+  fetch(`../php/request.php?type=all_installations&limit=${perPage}&offset=${(page-1)*perPage}`)
     .then(r => r.json())
     .then(data => {
       const tbody = document.getElementById('table-body');
       tbody.innerHTML = '';
-      data.forEach(row => {
+      data.rows.forEach(row => {
         tbody.innerHTML += `
           <tr data-id="${row.id}">
             <td>${row.id || ''}</td>
-            <td contenteditable="true" class="edit" data-field="locality">${row.locality || ''}</td>
-            <td contenteditable="true" class="edit" data-field="marque_panneau">${row.annee_install  || ''}</td>
-            <td contenteditable="true" class="edit" data-field="modele_panneau">${row.mois_install || ''}</td>
-            <td contenteditable="true" class="edit" data-field="nb_panneaux">${row.region || ''}</td>
-            <td contenteditable="true" class="edit" data-field="marque_onduleur">${row.departement || ''}</td>
-            <td contenteditable="true" class="edit" data-field="modele_onduleur">${row.ville || ''}</td>
-            <td contenteditable="true" class="edit" data-field="nb_onduleur">${row.installateur || ''}</td>
+            <td contenteditable="true" class="edit" data-field="annee_install">${row.annee_install  || ''}</td>
+            <td contenteditable="true" class="edit" data-field="mois_install">${row.mois_install || ''}</td>
+            <td>${row.region || ''}</td>
+            <td>${row.departement || ''}</td>
+            <td>${row.ville || ''}</td>
+            <td contenteditable="true" class="edit" data-field="installateur">${row.installateur || ''}</td>
             <td>
               <a href="../html/details.html?id=${row.id}" target="_blank">détails</a>
             </td>
@@ -25,6 +28,32 @@ function loadTable() {
           </tr>
         `;
       });
+
+      // Pagination
+      const pagination = document.getElementById('pagination');
+      const totalPages = Math.ceil(data.total / perPage);
+      let html = '';
+      if (page > 1) {
+        html += `<button id="prev-page">Précédent</button>`;
+      }
+      if (page < totalPages) {
+        html += `<button id="next-page">Suivant</button>`;
+      }
+      pagination.innerHTML = html;
+
+      // Gestion des boutons
+      if (page > 1) {
+        document.getElementById('prev-page').onclick = () => {
+          currentPage--;
+          loadTable(currentPage);
+        };
+      }
+      if (page < totalPages) {
+        document.getElementById('next-page').onclick = () => {
+          currentPage++;
+          loadTable(currentPage);
+        };
+      }
     });
 }
 loadTable();
