@@ -169,7 +169,31 @@ if ($type === 'batiments_coords') {
 // Affichage des 100 premières installations
 if ($type === 'all_installations') {
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 100;
-    $stmt = $db->prepare('SELECT id, locality, marque_panneau, panneau_modele, nb_panneaux, marque_onduleur, modele_onduleur, nb_onduleur, annee_install, mois_install, puissance_crete, surface, lat, lon FROM batiment LIMIT :limit');
+    $sql = 'SELECT 
+        b.id,
+        b.locality,
+        b.annee_install,
+        b.mois_install,
+        r.nom_region AS region,
+        d.nom_departement AS departement,
+        c.nom_commune AS ville,
+        b.installateur,
+        b.panneau_modele,
+        b.marque_panneau,
+        b.nb_panneaux,
+        b.marque_onduleur,
+        b.modele_onduleur,
+        b.nb_onduleur,
+        b.puissance_crete,
+        b.surface,
+        b.lat,
+        b.lon
+      FROM batiment b
+      LEFT JOIN commune_france c ON c.nom_commune = b.locality
+      LEFT JOIN departement d ON d.code_departement = c.code_departement
+      LEFT JOIN region r ON r.code_region = c.code_region
+      LIMIT :limit';
+    $stmt = $db->prepare($sql);
     $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -210,5 +234,44 @@ if ($type === 'delete_installation' && !empty($_GET['id'])) {
     sendJsonData(['success'=>true], 200);
     exit;
 }
+
+if ($type === 'recherche') {
+    $marqueOndul = $_GET['marque_ondul'] ?? '';
+    $marquePan = $_GET['marque_pan'] ?? '';
+    $dep = $_GET['dep'] ?? '';
+
+    $sql = "SELECT CONCAT(b.mois_install, '/', b.annee_install) AS date,
+                b.nb_panneaux,
+                b.surface,
+                b.puissance_crete,
+                r.nom_region AS localisation
+            FROM batiment b
+            JOIN commune_france c ON b.locality = c.nom_commune
+            JOIN region r ON c.code_region = r.code_region
+            JOIN departement d ON c.code_departement = d.code_departement
+            WHERE 1";
+    $params = [];
+
+    if ($marqueOndul !== '') {
+        $sql .= " AND b.marque_onduleur = ?";
+        $params[] = $marqueOndul;
+    }
+    if ($marquePan !== '') {
+        $sql .= " AND b.marque_panneau = ?";
+        $params[] = $marquePan;
+    }
+    if ($dep !== '') {
+        $sql .= " AND d.nom_departement = ?";
+        $params[] = $dep;
+    }
+    $sql .= " LIMIT 100"; 
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    sendJsonData($resultats, 200);
+    exit;
+}
+
 
 ?>
