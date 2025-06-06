@@ -69,14 +69,14 @@ if ($type === 'stats') {
 
 // Listes pour les selects
 if ($type === 'marque_ondul') {
-    $stmt = $db->query('SELECT DISTINCT marque_onduleur FROM marque_onduleur LIMIT 20');
+    $stmt = $db->query('SELECT DISTINCT marque_onduleur FROM batiment WHERE marque_onduleur IS NOT NULL AND marque_onduleur != "" ORDER BY marque_onduleur');
     while ($row = $stmt->fetch()) {
         echo '<option value="' . htmlspecialchars($row['marque_onduleur']) . '">' . htmlspecialchars($row['marque_onduleur']) . '</option>';
     }
     exit;
 }
 if ($type === 'marque_pan') {
-    $stmt = $db->query('SELECT DISTINCT marque_panneau FROM marque_panneau LIMIT 20');
+    $stmt = $db->query('SELECT DISTINCT marque_panneau FROM batiment WHERE marque_panneau IS NOT NULL AND marque_panneau != "" ORDER BY marque_panneau');
     while ($row = $stmt->fetch()) {
         echo '<option value="' . htmlspecialchars($row['marque_panneau']) . '">' . htmlspecialchars($row['marque_panneau']) . '</option>';
     }
@@ -240,7 +240,7 @@ if ($type === 'recherche') {
     $marquePan = $_GET['marque_pan'] ?? '';
     $dep = $_GET['dep'] ?? '';
 
-    $sql = "SELECT CONCAT(b.mois_install, '/', b.annee_install) AS date,
+    $sql = "SELECT  b.id, CONCAT(b.mois_install, '/', b.annee_install) AS date,
                 b.nb_panneaux,
                 b.surface,
                 b.puissance_crete,

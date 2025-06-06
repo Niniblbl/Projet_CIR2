@@ -37,7 +37,9 @@ document.getElementById('search-form').addEventListener('submit', async function
           <td>${row.surface || ''}</td>
           <td>${row.puissance_crete || ''}</td>
           <td>${row.localisation || ''}</td>
-          <td></td>
+          <td>
+            <a href="details.html?id=${row.id}" title="Voir les détails">
+          <img src="../images/lien.png" alt="Détails" style="width:24px;height:24px;vertical-align:middle;"></td>
         </tr>
       `;
     });
