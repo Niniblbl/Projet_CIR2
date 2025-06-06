@@ -29,6 +29,19 @@ async function drawGraphInstallationsParAnnee() {
     const labels = data.map(row => row.annee_install);
     const values = data.map(row => row.nb);
 
+    // Couleurs gourmandes : caramel, chocolat, fraise, pistache, vanille
+    const barColors = [
+        'rgba(91, 108, 176, 0.85)',   // bleu principal (header)
+        'rgba(139, 180, 248, 0.85)',  // bleu clair
+        'rgba(0, 159, 154, 0.85)',    // vert d'eau
+        'rgba(178, 198, 228, 0.85)',  // bleu pastel
+        'rgba(0, 204, 204, 0.85)',    // turquoise doux
+        'rgba(244, 250, 255, 0.85)',  // blanc bleuté
+        'rgba(100, 181, 246, 0.85)',  // bleu ciel
+        'rgba(77, 182, 172, 0.85)',   // vert d'eau foncé
+        'rgba(233, 245, 255, 0.85)'   // bleu très pâle
+        ];
+
     const ctx = document.getElementById('graph-installations').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -37,7 +50,7 @@ async function drawGraphInstallationsParAnnee() {
             datasets: [{
                 label: 'Installations par année',
                 data: values,
-                backgroundColor: 'rgba(255, 0, 0, 0.5)'
+                backgroundColor: labels.map((_, i) => barColors[i % barColors.length])
             }]
         }
     });
@@ -49,6 +62,18 @@ async function drawGraphFromageRegions() {
     const data = await response.json();
     const labels = data.map(row => row.nom_region);
     const values = data.map(row => Number(row.nb));
+        const colors = [
+        'rgba(91, 108, 176, 0.85)',   // bleu principal (header)
+        'rgba(139, 180, 248, 0.85)',  // bleu clair
+        'rgba(0, 159, 154, 0.85)',    // vert d'eau
+        'rgba(178, 198, 228, 0.85)',  // bleu pastel
+        'rgba(0, 204, 204, 0.85)',    // turquoise doux
+        'rgba(244, 250, 255, 0.85)',  // blanc bleuté
+        'rgba(100, 181, 246, 0.85)',  // bleu ciel
+        'rgba(77, 182, 172, 0.85)',   // vert d'eau foncé
+        'rgba(233, 245, 255, 0.85)'   // bleu très pâle
+        ];
+
 
     const ctx = document.getElementById('graph-fromage').getContext('2d');
     new Chart(ctx, {
@@ -58,14 +83,8 @@ async function drawGraphFromageRegions() {
             datasets: [{
                 label: 'Installations par région',
                 data: values,
-                backgroundColor: [
-                    'rgba(255, 0, 200, 0.5)',
-                    'rgba(21, 0, 255, 0.5)',
-                    'rgba(0, 255, 204, 0.5)',
-                    'rgba(47, 255, 0, 0.5)',
-                    'rgba(255, 234, 0, 0.5)',
-                    'rgba(255, 0, 0, 0.5)',
-                ]
+                backgroundColor: labels.map((_, i) => colors[i % colors.length]),
+                borderWidth: 0
             }]
         }
     });
@@ -80,10 +99,22 @@ async function drawGraphRegionAnnee() {
     const annees = [...new Set(data.map(row => row.annee_install))];
     const regions = [...new Set(data.map(row => row.nom_region))];
 
+    // Couleurs soleil pour les régions (mêmes tons que ci-dessus)
+    const regionColors = [
+        'rgba(91, 108, 176, 0.85)',   // bleu principal (header)
+        'rgba(139, 180, 248, 0.85)',  // bleu clair
+        'rgba(0, 159, 154, 0.85)',    // vert d'eau
+        'rgba(178, 198, 228, 0.85)',  // bleu pastel
+        'rgba(0, 204, 204, 0.85)',    // turquoise doux
+        'rgba(244, 250, 255, 0.85)',  // blanc bleuté
+        'rgba(100, 181, 246, 0.85)',  // bleu ciel
+        'rgba(77, 182, 172, 0.85)',   // vert d'eau foncé
+        'rgba(233, 245, 255, 0.85)'   // bleu très pâle
+        ];
+
     // Prépare un dataset par région
     const datasets = regions.map((region, idx) => {
-        // Couleur différente pour chaque région
-        const color = `hsl(${(idx * 360 / regions.length)}, 70%, 60%)`;
+        const color = regionColors[idx % regionColors.length];
         return {
             label: region,
             data: annees.map(annee => {

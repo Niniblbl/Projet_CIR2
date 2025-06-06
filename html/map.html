@@ -7,12 +7,14 @@
   <link rel="stylesheet" href="../css/leaflet.css">
 </head>
 <body>
-  <header>
-    <img src="../images/logo.png" alt="Logo" id="logo">
-    <nav>
+  <header class="main-header">
+    <div class="header-left">
+      <img src="../images/logo.png" alt="Logo" id="logo">
+    </div>
+    <nav class="header-nav">
       <a href="index.html">Accueil</a>
-      <a href="map.html">Carte</a>
       <a href="recherche.html">Recherche</a>
+      <a href="../back/back.html">Admin</a>
     </nav>
   </header>
   <main class="main-map">
@@ -32,7 +34,6 @@
         </form>
       </aside>
       <section class="map-content">
-        <h1>Maquette Panneaux solaires</h1>
         <h2>Carte des installations :</h2>
         <div id="map"></div>
       </section>

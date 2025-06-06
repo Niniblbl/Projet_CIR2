@@ -6,62 +6,69 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-  <header>
-    <img src="../images/logo.png" alt="Logo" id="logo">
-    <nav>
-      <a href="index.html">Accueil </a>
+  <header class="main-header">
+    <div class="header-left">
+      <img src="../images/logo.png" alt="Logo" id="logo">
+    </div>
+    <nav class="header-nav">
       <a href="map.html">Carte</a>
       <a href="recherche.html">Recherche</a>
+      <a href="../back/back.html">Admin</a>
     </nav>
   </header>
   <main>
-    <h1>Maquette Panneaux solaires</h1>
+    <h1>France Sol'Air</h1>
     <section id="description">
       <h2>Notre objectif :</h2>
-      Ce site est un site (pas du tout) professionnel qui permet de visualiser les instalations de panneaux solaires en France.<br>
-      Vous pouvez rechercher des instalations sur une carte interractive ainsi que par des filtres.<br>
-      Vous pouvez aussi voir des statistiques sur les instalations de panneaux solaires en France.
+      France Sol'Air est une plateforme interactive dédiée à la visualisation et à l'analyse des installations de panneaux solaires en France.<br>
+      Explorez la carte pour localiser les installations, effectuez des recherches avancées grâce à de nombreux filtres, et consultez des statistiques détaillées sur le développement du solaire à l’échelle nationale et régionale.
     </section>
-    <h2>Statistiques:</h2>
-    <div id="stats">
-      <div id="stat-enregistrements" class="stat">
-        <img src="../images/cloud.png" class="icon"><br>
-        <span id="stat-enregistrements-count">100</span>
-        <br>Enregistrements en base
+    <section id="stats-section">
+      <h2>Statistiques clés</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <img src="../images/cloud.png" class="icon" alt="Enregistrements">
+          <div class="stat-value" id="stat-enregistrements-count">100</div>
+          <div class="stat-label">Enregistrements en base</div>
+        </div>
+        <div class="stat-card">
+          <img src="../images/smiley.png" class="icon" alt="Installateurs">
+          <div class="stat-value" id="stat-installateurs-m">100</div>
+          <div class="stat-label">Nombre d'installateurs</div>
+        </div>
+        <div class="stat-card">
+          <img src="../images/sheet.png" class="icon" alt="Marques onduleur">
+          <div class="stat-value" id="stat-marques-m">100</div>
+          <div class="stat-label">Marques d'onduleur</div>
+        </div>
+        <div class="stat-card">
+          <img src="../images/shield.png" class="icon" alt="Marques panneaux">
+          <div class="stat-value" id="stat-panneaux-m">100</div>
+          <div class="stat-label">Marques de panneaux solaires</div>
+        </div>
       </div>
-      <div id="stat-installateurs" class="stat">
-        <img src="../images/smiley.png" class="icon"><br>
-        <span id="stat-installateurs-m">100</span>
-        <br>Nombre d'installateurs
+    </section>
+    <section class="graphs-section">
+      <h2>Statistiques visuelles</h2>
+      <div class="graphs-grid">
+        <div class="graphs-row">
+          <div class="graph-card">
+            <h3>Installations par année</h3>
+            <canvas id="graph-installations" width="400" height="220"></canvas>
+          </div>
+          <div class="graph-card">
+            <h3>Installations par région</h3>
+            <canvas id="graph-fromage" width="400" height="220"></canvas>
+          </div>
+        </div>
+        <div class="graphs-row graphs-row-center">
+          <div class="graph-card">
+            <h3>Installations par régions et par années</h3>
+            <canvas id="graph-region-annee" width="400" height="220"></canvas>
+          </div>
+        </div>
       </div>
-      <div id="stat-marques" class="stat">
-        <img src="../images/sheet.png" class="icon"><br>
-        <span id="stat-marques-m">100</span>
-        <br>Nombre de marques d'onduleur
-      </div>
-      <div id="stat-panneaux" class="stat">
-        <img src="../images/shield.png" class="icon"><br>
-        <span id="stat-panneaux-m">100</span>
-        <br>Nombre de marques de panneaux solaires
-      </div>
-    </div>
-    <div id="graph-row">
-      <div>
-        <canvas id="graph-installations" width="600" height="300"></canvas>
-        <div style="text-align:center;">Installations par année</div>
-        <br>
-      </div>
-      <div>
-        <canvas id="graph-fromage" width="600" height="300"></canvas>
-        <div style="text-align:center;">Installations par région</div>
-        <br>
-      </div>
-      <div>
-        <canvas id="graph-region-annee" width="600" height="350"></canvas>
-        <div style="text-align:center;">Installations par régions et par années</div>
-        <br>
-      </div>
-    </div>
+    </section>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </main>
   <footer>

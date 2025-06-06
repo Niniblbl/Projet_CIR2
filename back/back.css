@@ -11,14 +11,17 @@
   border: 1px solid #bbb;
 }
 #add-form button {
-  background: #2d8cf0;
+  background: #222;
   color: #fff;
-  border: none;
+  font-weight: 600;
   cursor: pointer;
+  border: none;
+  min-width: 110px;
   transition: background 0.2s;
 }
+
 #add-form button:hover {
-  background: #1766b0;
+  background: #004d5b;
 }
 
 #table-installations {
@@ -26,13 +29,13 @@
   max-width: 1300px;      
   margin: 18px auto;
   border-collapse: collapse;
-  background: #fff;
+  background: #f0f0f0a7;
   font-size: 1rem;
   table-layout: fixed;
 }
 
 #table-installations th, #table-installations td {
-  border: 1px solid #e0e0e0;
+  border: 1px solid #c3c3c3;
   padding: 10px 14px;      
   text-align: left;
   max-width: 250px;
@@ -51,10 +54,7 @@
   background: #f8fafd;
 }
 
-#table-installations td[contenteditable="true"] {
-  background: #f3f8ff;
-  outline: 1px solid #b6d4fa;
-}
+
 
 .btn-save, .btn-delete {
   border: none;
