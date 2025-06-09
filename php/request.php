@@ -216,10 +216,25 @@ if ($type === 'add_installation') {
     $values = [];
     foreach ($fields as $f) {
         $values[$f] = $_POST[$f] ?? null;
-        // Pour lat et lon, si vide, force à null
         if (($f === 'lat' || $f === 'lon') && ($values[$f] === '' || $values[$f] === null)) {
             $values[$f] = null;
         }
+    }
+
+    // Vérification modèle panneau <-> marque panneau dans batiment
+    $stmt = $db->prepare('SELECT 1 FROM batiment WHERE panneau_modele = ? AND marque_panneau = ? LIMIT 1');
+    $stmt->execute([$values['panneau_modele'], $values['marque_panneau']]);
+    if (!$stmt->fetch()) {
+        sendJsonData(['success'=>false, 'error'=>'Le modèle de panneau n\'est pas associé à cette marque dans la base.'], 400);
+        exit;
+    }
+
+    // Vérification modèle onduleur <-> marque onduleur dans batiment
+    $stmt = $db->prepare('SELECT 1 FROM batiment WHERE modele_onduleur = ? AND marque_onduleur = ? LIMIT 1');
+    $stmt->execute([$values['modele_onduleur'], $values['marque_onduleur']]);
+    if (!$stmt->fetch()) {
+        sendJsonData(['success'=>false, 'error'=>'Le modèle d\'onduleur n\'est pas associé à cette marque dans la base.'], 400);
+        exit;
     }
 
     // Cherche le code_insee ET le nom officiel de la commune
@@ -230,11 +245,10 @@ if ($type === 'add_installation') {
     if (!$row || empty($row['code_insee'])) {
         sendJsonData(['success'=>false, 'error'=>'Commune inconnue, code INSEE introuvable pour "'.$values['locality'].'"'], 400);
         exit;
-}
+    }
 
-// Ajoute le code_insee et remplace locality par le nom officiel
-$values['code_insee'] = $row['code_insee'];
-$values['locality'] = $row['nom_commune'];
+    $values['code_insee'] = $row['code_insee'];
+    $values['locality'] = $row['nom_commune'];
 
     $sql = "INSERT INTO batiment (".implode(',',$fields).",code_insee) VALUES (:".implode(',:',$fields).",:code_insee)";
     $stmt = $db->prepare($sql);

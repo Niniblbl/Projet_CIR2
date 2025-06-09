@@ -228,10 +228,3 @@
   background: #009f9a;
 }
 
-.login-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(120deg, #e8f0fe 0%, #b3c6e4 100%);
-}
