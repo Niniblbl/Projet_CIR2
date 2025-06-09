@@ -1,10 +1,26 @@
+<?php
+session_start();
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['admin_pwd'])) {
+    if ($_POST['admin_pwd'] === 'admin2025') { // mot de passe ici
+        $_SESSION['admin_ok'] = true;
+        header('Location: back.php');
+        exit;
+    } else {
+        $error = "Mot de passe incorrect.";
+    }
+}
+if (empty($_SESSION['admin_ok'])) {
+    header('Location: ../back/admin_login.html');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <title>Administration des installations</title>
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="back.css">
+  <link rel="stylesheet" href="../back/back.css">
 </head>
 <body>
   <header>
@@ -12,7 +28,8 @@
     <nav>
       <a href="../html/index.html">Accueil</a>
       <a href="../html/map.html">Carte</a>
-      <a href="../html/index.html#recherche">Recherche</a>
+      <a href="../html/recherche.html">Recherche</a>
+      <a href="logout.php" style="color:#e74c3c;font-weight:bold;">Déconnexion</a>
     </nav>
   </header>
   <main>

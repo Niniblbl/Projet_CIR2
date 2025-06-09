@@ -532,3 +532,94 @@ button:hover,
     box-sizing: border-box;
   }
 }
+
+/* Beau pop-up Leaflet */
+.leaflet-popup-content-wrapper {
+  background: #fafdff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(91,108,176,0.12);
+  border: 1.5px solid #b3c6e4;
+}
+
+.leaflet-popup-content {
+  margin: 12px 8px;
+  color: #232b3a;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 1.05rem;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.popup-title {
+  font-weight: 700;
+  color: #4e5d7c;
+  font-size: 1.08rem;
+  margin-bottom: 2px;
+}
+
+.popup-link {
+  color: #009f9a;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s;
+  font-size: 1rem;
+}
+.popup-link:hover {
+  color: #5b6cb0;
+}
+
+/* Embellit le tableau de recherche */
+#resultats table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 28px 0 0 0;
+  background: #fafdff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(91,108,176,0.10);
+}
+
+#resultats th, #resultats td {
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 1.04rem;
+}
+
+#resultats th {
+  background: #eaf1fa;
+  color: #354768;
+  font-weight: 700;
+  font-size: 1.08em;
+  border-bottom: 2px solid #b3c6e4;
+  letter-spacing: 0.01em;
+}
+
+#resultats tr {
+  border-bottom: 1px solid #eaf1fa;
+  transition: background 0.2s;
+}
+
+#resultats tr:nth-child(even) {
+  background: #f3f7fb;
+}
+
+#resultats tr:hover {
+  background: #e0ecfa;
+}
+
+#resultats td a {
+  color: #009f9a;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s;
+  font-size: 1rem;
+}
+#resultats td a:hover {
+  color: #5b6cb0;
+}

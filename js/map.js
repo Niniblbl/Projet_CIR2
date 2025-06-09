@@ -38,17 +38,29 @@ function loadMarkers() {
 
     fetch('../php/request.php?type=batiments_coords&' + params.toString())
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if (Array.isArray(data) && data.length > 0) {
-                data.forEach(batiment => {
-                    if (batiment.lat && batiment.lon) {
-                        L.marker([batiment.lat, batiment.lon])
-                            .addTo(markersLayer)
-                            .bindPopup('client ID: ' + batiment.id + '<br><a href="../html/details.html?id=' + batiment.id + '">Voir les détails</a>');
-                    }
-                });
-            } else {
+       .then(data => {
+          console.log(data);
+          const bounds = [];
+          if (Array.isArray(data) && data.length > 0) {
+              data.forEach(batiment => {
+                  if (batiment.lat && batiment.lon) {
+                      const marker = L.marker([batiment.lat, batiment.lon])
+                        .addTo(markersLayer)
+                        .bindPopup(`
+                          <div class="popup-content">
+                            <div class="popup-title">Installation #${batiment.id}</div>
+                            <div class="popup-commune"><b>Commune :</b> ${batiment.locality || "Non renseignée"}</div>
+                            <a class="popup-link" href="../html/details.html?id=${batiment.id}">Voir les détails</a>
+                          </div>
+                        `);
+                      bounds.push([batiment.lat, batiment.lon]);
+                  }
+              });
+              // Zoom sur tous les marqueurs affichés
+              if (bounds.length > 0) {
+                  map.fitBounds(bounds, {padding: [40, 40]});
+              }
+          } else {
                 alert("Aucun client trouvé pour ces critères.");
             }
         });

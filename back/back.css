@@ -68,3 +68,170 @@
 }
 .btn-save:hover { color: #2d8cf0; }
 .btn-delete:hover { color: #e74c3c; }
+
+/* Beau formulaire d'ajout */
+#add-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+  background: #fafdff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(91,108,176,0.07);
+  padding: 28px 24px 18px 24px;
+  margin-bottom: 32px;
+  max-width: 900px;
+}
+
+#add-form input, #add-form button {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1.5px solid #b3c6e4;
+  background: #fff;
+  transition: border 0.2s;
+}
+
+#add-form input:focus {
+  outline: none;
+  border: 1.5px solid #5b6cb0;
+}
+
+#add-form button {
+  grid-column: 1 / -1;
+  background: #5b6cb0;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 0;
+  font-size: 1.08rem;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#add-form button:hover {
+  background: #009f9a;
+}
+
+/* Embellit le tableau d'administration (back) comme le tableau de recherche */
+#table-installations {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 28px 0 0 0;
+  background: #fafdff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(91,108,176,0.10);
+  font-size: 1rem;
+  table-layout: fixed;
+}
+
+#table-installations th, #table-installations td {
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 1.04rem;
+  border: none;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#table-installations th {
+  background: #eaf1fa;
+  color: #354768;
+  font-weight: 700;
+  font-size: 1.08em;
+  border-bottom: 2px solid #b3c6e4;
+  letter-spacing: 0.01em;
+}
+
+#table-installations tr {
+  border-bottom: 1px solid #eaf1fa;
+  transition: background 0.2s;
+}
+
+#table-installations tr:nth-child(even) {
+  background: #f3f7fb;
+}
+
+#table-installations tr:hover {
+  background: #e0ecfa;
+}
+
+#table-installations td:last-child, #table-installations th:last-child {
+  max-width: 100px;
+  width: 100px;
+  text-align: center;
+  padding: 0;
+}
+
+/* Style page de connexion admin */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #e8f0fe 0%, #b3c6e4 100%);
+}
+
+#admin-login-form {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(91,108,176,0.13);
+  padding: 38px 32px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
+  gap: 18px;
+}
+
+#admin-login-form label {
+  font-size: 1.08rem;
+  color: #4e5d7c;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+#admin-login-form input[type="password"] {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1.5px solid #b3c6e4;
+  font-size: 1rem;
+  background: #fafdff;
+  transition: border 0.2s;
+  margin-top: 6px;
+}
+
+#admin-login-form input[type="password"]:focus {
+  outline: none;
+  border: 1.5px solid #5b6cb0;
+}
+
+#admin-login-form button {
+  background: #5b6cb0;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 0;
+  font-size: 1.08rem;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#admin-login-form button:hover {
+  background: #009f9a;
+}
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #e8f0fe 0%, #b3c6e4 100%);
+}

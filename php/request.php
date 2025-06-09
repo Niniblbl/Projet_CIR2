@@ -142,7 +142,7 @@ if ($type === 'installations_par_region_et_annee') {
 
 if ($type === 'batiments_coords') {
     $params = [];
-    $sql = 'SELECT b.lat, b.lon, b.id
+    $sql = 'SELECT b.lat, b.lon, b.id, b.locality
         FROM batiment b
         JOIN commune_france c ON c.code_insee = b.code_insee
         JOIN departement d ON d.code_departement = c.code_departement
