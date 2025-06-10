@@ -3,26 +3,26 @@
 
 // Configuration des icônes Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: '../images/marker-icon-2x.png',
-  iconUrl: '../images/marker-icon.png',
+L.Icon.Default.mergeOptions({ // Supprime l'ancienne méthode de récupération des URL d'icônes
+  iconRetinaUrl: '../images/marker-icon-2x.png', 
+  iconUrl: '../images/marker-icon.png',  
   shadowUrl: '../images/marker-shadow.png'
-});
+});//problèmes de chargement des icônes dans Leaflet, on les remplace par leur bon chemin
 
 // Initialisation de la carte centrée sur la France
 var map = L.map('map').setView([48.8584, 2.2945], 6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map); // Ajoute une couche de tuiles OpenStreetMap à la carte
 
 // Remplit la liste des années pour filtrer la carte
 fetch('../php/request.php?type=annees')
-  .then(response => response.text())
+  .then(response => response.text()) // Envoie une requête pour récupérer les années d'installation
   .then(html => {
     document.getElementById('select-annee-map').innerHTML = '<option value="" disabled selected hidden>Choisir une année</option>' + html;
   });
 
 // Remplit la liste des départements pour filtrer la carte
 fetch('../php/request.php?type=dep')
-  .then(response => response.text())
+  .then(response => response.text()) // Envoie une requête pour récupérer les départements
   .then(html => {
     document.getElementById('select-departement-map').innerHTML = '<option value="" disabled selected hidden>Choisir un département</option>' + html;
   });
@@ -35,16 +35,16 @@ function loadMarkers() {
     const annee = document.getElementById('select-annee-map').value;
     const departement = document.getElementById('select-departement-map').value;
 
-    markersLayer.clearLayers();
+    markersLayer.clearLayers(); // Efface les marqueurs précédents avant d'en ajouter de nouveaux
 
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(); // Crée un objet URLSearchParams pour construire la requête
     if (annee) params.append('annee', annee);
     if (departement) params.append('departement', departement);
 
-    fetch('../php/request.php?type=batiments_coords&' + params.toString())
-        .then(response => response.json())
+    fetch('../php/request.php?type=batiments_coords&' + params.toString()) // Envoie une requête pour récupérer les coordonnées des installations selon les filtres
+        .then(response => response.json()) 
        .then(data => {
-          console.log(data);
+          console.log(data); // Affiche les données dans la console pour le débogage
           const bounds = [];
           if (Array.isArray(data) && data.length > 0) {
               data.forEach(batiment => {
@@ -60,7 +60,7 @@ function loadMarkers() {
                             <a class="popup-link" href="../html/details.html?id=${batiment.id}">Voir les détails</a>
                           </div>
                         `);
-                      bounds.push([batiment.lat, batiment.lon]);
+                      bounds.push([batiment.lat, batiment.lon]); // Ajoute les coordonnées du marqueur aux limites de la carte
                   }
               });
               // Centre la carte sur tous les marqueurs affichés
@@ -68,7 +68,7 @@ function loadMarkers() {
                   map.fitBounds(bounds, {padding: [40, 40]});
               }
           } else {
-                alert("Aucun client trouvé pour ces critères.");
+                alert("Aucun client trouvé pour ces critères.");  // Alerte si aucun marqueur n'est trouvé
             }
         });
 }
