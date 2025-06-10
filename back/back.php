@@ -18,6 +18,7 @@ if (empty($_SESSION['admin_ok'])) {
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Administration des installations</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../back/back.css">

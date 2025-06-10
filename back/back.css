@@ -228,3 +228,15 @@
   background: #009f9a;
 }
 
+@media (max-width: 800px) {
+  table#table-installations,
+  table#table-installations th,
+  table#table-installations td {
+    font-size: 0.80rem !important;
+  }
+  table#table-installations th,
+  table#table-installations td {
+    padding: 6px 4px !important;
+  }
+}
+

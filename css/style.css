@@ -476,7 +476,7 @@ button:hover,
 
 
 /* ---- MODE TÉLÉPHONE ---- */
-@media (max-width: 900px) {
+@media (max-width: 800px) {
   main {
     padding: 18px 2vw 24px 2vw;
     margin: 18px 0 18px 0;
