@@ -7,7 +7,7 @@ const id = params.get('id'); // Récupère l'id de l'installation depuis l'URL
 
 // Si un id est présent, on va chercher les infos détaillées
 if (id) {
-    fetch('../php/request.php?type=batiment_details&id=' + encodeURIComponent(id)) // Envoie une requête au serveur pour récupérer les détails de l'installation
+    fetch('/php/request.php?type=batiment_details&id=' + encodeURIComponent(id)) // Envoie une requête au serveur pour récupérer les détails de l'installation
     .then(response => response.json()) // Convertit la réponse en JSON
     .then(data => { // Traite les données reçues
     if (data) {
