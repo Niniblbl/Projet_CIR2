@@ -1,44 +1,53 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>README - Projet CIR2</title>
-</head>
-<body>
-  <h1>Projet_CIR2</h1>
-  <p>
-    Ce projet permet de visualiser les installations de panneaux solaires en France.<br>
-    Vous pouvez rechercher des installations sur une carte interactive ainsi que par des filtres.<br>
-    Des statistiques sur les installations sont également disponibles.
-  </p>
-  <h2>Structure du projet</h2>
-  <ul>
-    <li><strong>README.md</strong> : Ce fichier</li>
-    <li><strong>css/</strong> : Feuilles de styles (<code>style.css</code>, <code>leaflet.css</code>)</li>
-    <li><strong>html/</strong> : Pages HTML (<code>index.html</code>, <code>map.html</code>, <code>details.html</code>, etc.)</li>
-    <li><strong>images/</strong> : Images utilisées sur le site</li>
-    <li><strong>js/</strong> : Scripts JavaScript (<code>main.js</code>, <code>map.js</code>, etc.)</li>
-    <li><strong>php/</strong> : Scripts PHP pour la base de données et les requêtes serveur (<code>request.php</code>, <code>database.php</code>, etc.)</li>
-    <li><strong>partie administrateur</strong> : accéder par <code>/back/back.html</code>
-  </ul>
-  <h2>Fonctionnalités principales</h2>
-  <ul>
-    <li>Visualisation des installations sur une carte interactive (Leaflet)</li>
-    <li>Recherche et filtrage par année, département, marque, etc.</li>
-    <li>Affichage des détails d’une installation</li>
-    <li>Statistiques régionales et nationales</li>
-  </ul>
-  <h2>Installation</h2>
-  <ol>
-    <li>Cloner le dépôt ou copier les fichiers sur votre serveur local (WAMP, XAMPP, etc.)</li>
-    <li>Importer la base de données</li>
-    <li>Configurer les accès à la base dans <code>php/login.php</code> si besoin</li>
-    <li>Ouvrir <code>html/index.html</code> dans votre navigateur</li>
-  </ol>
-  <h2>Auteurs</h2>
-  <p>
-    Anita et Mael<br>
-    CIR2 2025
-  </p>
-</body>
-</html>
+# Projet CIR2 – Visualisation des installations de panneaux solaires
+
+Ce projet web permet de visualiser et d’administrer les installations de panneaux solaires en France.  
+Vous pouvez rechercher des installations, les afficher sur une carte interactive, consulter des statistiques et gérer les données via une interface d’administration sécurisée.
+
+---
+
+## Structure du projet
+
+- **README.md** : Ce fichier d’explications
+- **css/** : Feuilles de styles (`style.css`, `leaflet.css`, etc.)
+- **html/** : Pages HTML principales (`index.html`, `map.html`, `details.html`, etc.)
+- **images/** : Images utilisées sur le site
+- **js/** : Scripts JavaScript (`main.js`, `map.js`, `form.js`, etc.)
+- **php/** : Scripts PHP pour la base de données et les requêtes serveur (`request.php`, `database.php`, etc.)
+- **back/** : Interface d’administration (`back.php`, `back.js`, `back.css`, etc.)
+
+---
+
+## Fonctionnalités principales
+
+- Visualisation des installations sur une carte interactive (Leaflet)
+- Recherche et filtrage par année, département, marque, etc.
+- Affichage des détails d’une installation
+- Statistiques régionales et nationales (graphiques)
+- Interface d’administration sécurisée (ajout, modification, suppression d’installations)
+
+---
+
+## Installation
+
+1. **Configurer les accès à la base** dans `php/login.php` si besoin (identifiants, nom de la base…)
+2. **Ouvrir `html/index.html`** dans votre navigateur pour accéder au site
+3. **Accéder à l’administration** via `/back/back.php` (mot de passe par défaut : `admin2025`)
+
+---
+
+## Accès administrateur
+
+- Interface : `/back/back.php`
+- Déconnexion : `/back/logout.php`
+- Mot de passe par défaut : `admin2025` 
+
+---
+
+## Auteurs
+
+Anita & Mael  
+CIR2 2025
+
+---
+
+*Projet réalisé dans le cadre du cursus CIR2 – 2025*

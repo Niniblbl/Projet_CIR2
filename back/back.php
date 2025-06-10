@@ -1,14 +1,19 @@
 <?php
-session_start();
+session_start(); // On démarre la session pour gérer l’authentification admin
+
+// Si le formulaire de login admin a été soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['admin_pwd'])) {
+  // Vérifie le mot de passe admin (ici en dur!)
     if ($_POST['admin_pwd'] === 'admin2025') { // mot de passe ici
-        $_SESSION['admin_ok'] = true;
-        header('Location: back.php');
+        $_SESSION['admin_ok'] = true; // On note que l’admin est connecté
+        header('Location: back.php'); // Recharge la page pour afficher l’admin
         exit;
     } else {
-        $error = "Mot de passe incorrect.";
+        $error = "Mot de passe incorrect."; // Message d’erreur si mauvais mot de passe
     }
 }
+
+// Si l’admin n’est pas connecté, on le renvoie vers la page de login
 if (empty($_SESSION['admin_ok'])) {
     header('Location: ../back/admin_login.html');
     exit;

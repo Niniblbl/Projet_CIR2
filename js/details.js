@@ -1,13 +1,17 @@
+// Script pour afficher les détails d'une installation sur la page de détails
 'use strict';
 
+// Récupère l'id de l'installation depuis l'URL
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
 
+// Si un id est présent, on va chercher les infos détaillées
 if (id) {
     fetch('../php/request.php?type=batiment_details&id=' + encodeURIComponent(id))
     .then(response => response.json())
     .then(data => {
     if (data) {
+      // Remplit chaque champ de la page avec les infos reçues
         document.querySelector('.details-lieu').textContent = data.nom_departement || '';
         document.querySelector('.details-marque-panneau').textContent = data.marque_panneau || '';
         document.querySelector('.details-nb-panneau').textContent = data.nb_panneaux || '';

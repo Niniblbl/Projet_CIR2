@@ -1,6 +1,7 @@
+// Script pour la page d'accueil : affichage des stats et des graphiques
 'use strict';
 
-
+// Récupère et affiche les statistiques principales (enregistrements, installateurs, marques, panneaux)
 async function requestData() {
     try {
         const response = await fetch('../php/request.php?type=stats');
@@ -23,23 +24,23 @@ async function requestData() {
 }
 requestData();
 
+// Affiche le graphique des installations par année
 async function drawGraphInstallationsParAnnee() {
     const response = await fetch('../php/request.php?type=installations_par_annee');
     const data = await response.json();
     const labels = data.map(row => row.annee_install);
     const values = data.map(row => row.nb);
 
-    // Couleurs gourmandes : caramel, chocolat, fraise, pistache, vanille
     const barColors = [
-        'rgba(91, 108, 176, 0.85)',   // bleu principal (header)
-        'rgba(139, 180, 248, 0.85)',  // bleu clair
-        'rgba(0, 159, 154, 0.85)',    // vert d'eau
-        'rgba(178, 198, 228, 0.85)',  // bleu pastel
-        'rgba(0, 204, 204, 0.85)',    // turquoise doux
-        'rgba(244, 250, 255, 0.85)',  // blanc bleuté
-        'rgba(100, 181, 246, 0.85)',  // bleu ciel
-        'rgba(77, 182, 172, 0.85)',   // vert d'eau foncé
-        'rgba(233, 245, 255, 0.85)'   // bleu très pâle
+        'rgba(91, 108, 176, 0.85)',   
+        'rgba(139, 180, 248, 0.85)',  
+        'rgba(0, 159, 154, 0.85)',    
+        'rgba(178, 198, 228, 0.85)',  
+        'rgba(0, 204, 204, 0.85)',    
+        'rgba(244, 250, 255, 0.85)',  
+        'rgba(100, 181, 246, 0.85)', 
+        'rgba(77, 182, 172, 0.85)',   
+        'rgba(233, 245, 255, 0.85)'   
         ];
 
     const ctx = document.getElementById('graph-installations').getContext('2d');
@@ -57,21 +58,22 @@ async function drawGraphInstallationsParAnnee() {
 }
 drawGraphInstallationsParAnnee();
 
+// Affiche le graphique en camembert des installations par région
 async function drawGraphFromageRegions() {
     const response = await fetch('../php/request.php?type=installations_par_region');
     const data = await response.json();
     const labels = data.map(row => row.nom_region);
     const values = data.map(row => Number(row.nb));
         const colors = [
-        'rgba(91, 108, 176, 0.85)',   // bleu principal (header)
-        'rgba(139, 180, 248, 0.85)',  // bleu clair
-        'rgba(0, 159, 154, 0.85)',    // vert d'eau
-        'rgba(178, 198, 228, 0.85)',  // bleu pastel
-        'rgba(0, 204, 204, 0.85)',    // turquoise doux
-        'rgba(244, 250, 255, 0.85)',  // blanc bleuté
-        'rgba(100, 181, 246, 0.85)',  // bleu ciel
-        'rgba(77, 182, 172, 0.85)',   // vert d'eau foncé
-        'rgba(233, 245, 255, 0.85)'   // bleu très pâle
+        'rgba(91, 108, 176, 0.85)',   
+        'rgba(139, 180, 248, 0.85)',  
+        'rgba(0, 159, 154, 0.85)',    
+        'rgba(178, 198, 228, 0.85)',  
+        'rgba(0, 204, 204, 0.85)',    
+        'rgba(244, 250, 255, 0.85)',  
+        'rgba(100, 181, 246, 0.85)',  
+        'rgba(77, 182, 172, 0.85)',  
+        'rgba(233, 245, 255, 0.85)'   
         ];
 
 
@@ -91,6 +93,7 @@ async function drawGraphFromageRegions() {
 }
 drawGraphFromageRegions();
 
+// Affiche le graphique des installations par région et par année
 async function drawGraphRegionAnnee() {
     const response = await fetch('../php/request.php?type=installations_par_region_et_annee');
     const data = await response.json();
@@ -99,20 +102,19 @@ async function drawGraphRegionAnnee() {
     const annees = [...new Set(data.map(row => row.annee_install))];
     const regions = [...new Set(data.map(row => row.nom_region))];
 
-    // Couleurs soleil pour les régions (mêmes tons que ci-dessus)
     const regionColors = [
-        'rgba(91, 108, 176, 0.85)',   // bleu principal (header)
-        'rgba(139, 180, 248, 0.85)',  // bleu clair
-        'rgba(0, 159, 154, 0.85)',    // vert d'eau
-        'rgba(178, 198, 228, 0.85)',  // bleu pastel
-        'rgba(0, 204, 204, 0.85)',    // turquoise doux
-        'rgba(244, 250, 255, 0.85)',  // blanc bleuté
-        'rgba(100, 181, 246, 0.85)',  // bleu ciel
-        'rgba(77, 182, 172, 0.85)',   // vert d'eau foncé
-        'rgba(233, 245, 255, 0.85)'   // bleu très pâle
+        'rgba(91, 108, 176, 0.85)',  
+        'rgba(139, 180, 248, 0.85)', 
+        'rgba(0, 159, 154, 0.85)',    
+        'rgba(178, 198, 228, 0.85)', 
+        'rgba(0, 204, 204, 0.85)',    
+        'rgba(244, 250, 255, 0.85)', 
+        'rgba(100, 181, 246, 0.85)',  
+        'rgba(77, 182, 172, 0.85)',  
+        'rgba(233, 245, 255, 0.85)'  
         ];
 
-    // Prépare un dataset par région
+    // Prépare un dataset par région pour le graphique groupé
     const datasets = regions.map((region, idx) => {
         const color = regionColors[idx % regionColors.length];
         return {
@@ -146,6 +148,7 @@ async function drawGraphRegionAnnee() {
 }
 drawGraphRegionAnnee();
 
+// Fonction utilitaire pour afficher les erreurs
 function displayErrors(status){
     console.error(`Error ${status}`);
 }

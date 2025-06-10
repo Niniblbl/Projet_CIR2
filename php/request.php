@@ -1,19 +1,21 @@
 <?php
+// Inclusion des fonctions de connexion et requêtes SQL
 require_once('../php/database.php');
 
+// Affiche les erreurs PHP (utile en développement)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //connexion à la base de données
 $db = dbConnect();
-if (!$db)
-{
+if (!$db){
+    // Si la connexion échoue, on renvoie une erreur HTTP
     header('HTTP/1.1 503 Service Unavailable');
     exit;
 }
 
-// récupération de la méthode HTTP et de la ressource URL demandée
+// Récupération de la méthode HTTP et de la ressource demandée (pas utilisé ici, mais prêt pour une API REST)
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $request = '';
 if (isset($_SERVER['PATH_INFO'])) {
@@ -30,12 +32,14 @@ if (isset($_SERVER['PATH_INFO'])) {
     $id = null;
 }
 
+// Récupère le nombre total d'enregistrements (pour les stats ou la pagination)
 $enregistrements = dbRequestEnregistrement($db);
 $count = 0;
 if ($enregistrements && isset($enregistrements[0]['COUNT(id)'])) { // Vérification de l'existence de la clé
     $count = $enregistrements[0]['COUNT(id)'];
 }
 
+// Fonction utilitaire pour envoyer une réponse JSON propre
 function sendJsonData($data, $code){
     header('Content-Type: application/json; charset=utf-8');
     header('Cache-control: no-store, no-cache, must-revalidate');
@@ -50,15 +54,17 @@ function sendJsonData($data, $code){
         echo json_encode(['error' => 'Bad Request']);
     }
 }
+// Récupère le type de requête demandé (ex: stats, marque_ondul, etc.)
 $type = $_GET['type'] ?? null;
 
 // Statistiques globales
 if ($type === 'stats') {
+    // Appelle les fonctions pour chaque statistique
     $enregistrements = dbRequestEnregistrement($db);
     $installateurs = dbRequestNbInstallateurs($db);
     $onduleurs = dbRequestMarqueOnduleurs($db);
     $panneaux = dbRequestMarquesPanneaux($db);
-
+    // Renvoie toutes les stats sous forme de JSON
     sendJsonData([
         'enregistrements' => $enregistrements[0]['COUNT(id)'] ?? 0,
         'installateurs'   => $installateurs['installateur'] ?? 0,
@@ -69,20 +75,23 @@ if ($type === 'stats') {
 
 // Listes pour les selects
 if ($type === 'marque_ondul') {
-    $stmt = $db->query('SELECT DISTINCT marque_onduleur FROM batiment WHERE marque_onduleur IS NOT NULL AND marque_onduleur != "" ORDER BY marque_onduleur');
+    // Liste des marques d'onduleur pour le formulaire
+    $stmt = $db->query('SELECT DISTINCT marque_onduleur FROM batiment WHERE marque_onduleur IS NOT NULL AND marque_onduleur != "" ORDER BY marque_onduleur LIMIT 20');
     while ($row = $stmt->fetch()) {
         echo '<option value="' . htmlspecialchars($row['marque_onduleur']) . '">' . htmlspecialchars($row['marque_onduleur']) . '</option>';
     }
     exit;
 }
 if ($type === 'marque_pan') {
-    $stmt = $db->query('SELECT DISTINCT marque_panneau FROM batiment WHERE marque_panneau IS NOT NULL AND marque_panneau != "" ORDER BY marque_panneau');
+    // Liste des marques de panneaux pour le formulaire
+    $stmt = $db->query('SELECT DISTINCT marque_panneau FROM batiment WHERE marque_panneau IS NOT NULL AND marque_panneau != "" ORDER BY marque_panneau  LIMIT 20');
     while ($row = $stmt->fetch()) {
         echo '<option value="' . htmlspecialchars($row['marque_panneau']) . '">' . htmlspecialchars($row['marque_panneau']) . '</option>';
     }
     exit;
 }
 if ($type === 'dep') {
+    // Liste des départements pour le formulaire
     $stmt = $db->query('SELECT DISTINCT nom_departement,code_departement FROM departement ORDER BY RAND() LIMIT 20');
     while ($row = $stmt->fetch()) {
         echo '<option value="' . htmlspecialchars($row['code_departement']) . '">' . htmlspecialchars($row['nom_departement']) . '</option>';
@@ -91,6 +100,7 @@ if ($type === 'dep') {
 }
 
 if ($type === 'annees') {
+    // Liste des années d'installation pour le formulaire
     $stmt = $db->query('SELECT DISTINCT annee_install FROM batiment ORDER BY annee_install DESC LIMIT 20');
     while ($row = $stmt->fetch()) {
         echo '<option value="' . htmlspecialchars($row['annee_install']) . '">' . htmlspecialchars($row['annee_install']) . '</option>';
@@ -98,9 +108,10 @@ if ($type === 'annees') {
     exit;
 }
 
-//details 
+//details d'une installation
 $id = $_GET['id'] ?? null;
 if ($type === 'batiment_details' && !empty($id)) {
+    // Récupère toutes les infos détaillées pour une installation donnée
     $stmt = $db->prepare('SELECT 
         d.nom_departement,
         b.marque_panneau,
@@ -124,30 +135,35 @@ if ($type === 'batiment_details' && !empty($id)) {
     exit;
 }
 
-// Graphiques
-if ($type === 'installations_par_annee') {
+// Donnees pour les graphiques
+if ($type === 'installations_par_annee'){
+    // Nombre d'installations par année
     $iannee = dbRequestInstallationsParAnnee($db);
     sendJsonData($iannee, 200);
 }
 
-if ($type === 'installations_par_region') {
+if ($type === 'installations_par_region'){
+    // Nombre d'installations par région
     $regions = dbRequestInstallationsParRegion($db);
     sendJsonData($regions, 200);
 }
 
-if ($type === 'installations_par_region_et_annee') {
+if ($type === 'installations_par_region_et_annee'){
+    // Nombre d'installations par région et par année
     $data = dbRequestInstallationsParRegionEtAnnee($db);
     sendJsonData($data, 200);
 }
 
-if ($type === 'batiments_coords') {
+//coordonnées pour la carte
+if ($type === 'batiments_coords'){
+    // Récupère les coordonnées et infos principales pour afficher les marqueurs sur la carte
     $params = [];
-    $sql = 'SELECT b.lat, b.lon, b.id, b.locality
+    $sql = 'SELECT b.lat, b.lon, b.id, b.locality, b.puissance_crete
         FROM batiment b
         JOIN commune_france c ON c.code_insee = b.code_insee
         JOIN departement d ON d.code_departement = c.code_departement
         WHERE b.lat IS NOT NULL AND b.lon IS NOT NULL';
-
+    // Filtres (année, département)
     if (!empty($_GET['annee'])) {
         $sql .= ' AND b.annee_install = :annee';
         $params['annee'] = $_GET['annee'];
@@ -166,16 +182,17 @@ if ($type === 'batiments_coords') {
     exit;
 }
 
-// Affichage des 100 premières installations
+// Affichage des 100 premières installations (admin)
 if ($type === 'all_installations') {
+    // Pagination
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 100;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
-    // Total count
+    // Nombre total d'installations
     $stmt = $db->query('SELECT COUNT(*) FROM batiment');
     $total = $stmt->fetchColumn();
 
-    // Data
+    // Récupère les installations avec toutes les infos utiles pour l'admin
     $sql = 'SELECT 
         b.id,
         b.locality,
@@ -206,16 +223,19 @@ if ($type === 'all_installations') {
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Renvoie les données et le total pour la pagination
     sendJsonData(['rows' => $rows, 'total' => $total], 200);
     exit;
 }
 
 // Ajout d'une installation
-if ($type === 'add_installation') {
+if ($type === 'add_installation'){
+    // Liste des champs attendus
     $fields = ['locality','marque_panneau','panneau_modele','nb_panneaux','marque_onduleur','modele_onduleur','nb_onduleur','annee_install','mois_install','puissance_crete','surface','lat','lon', 'installateur'];
     $values = [];
     foreach ($fields as $f) {
         $values[$f] = $_POST[$f] ?? null;
+        // Si lat/lon sont vides, on les met à null
         if (($f === 'lat' || $f === 'lon') && ($values[$f] === '' || $values[$f] === null)) {
             $values[$f] = null;
         }
@@ -247,9 +267,11 @@ if ($type === 'add_installation') {
         exit;
     }
 
+    // Met à jour les valeurs avec le code INSEE et le nom officiel
     $values['code_insee'] = $row['code_insee'];
     $values['locality'] = $row['nom_commune'];
 
+    // Insère la nouvelle installation dans la base
     $sql = "INSERT INTO batiment (".implode(',',$fields).",code_insee) VALUES (:".implode(',:',$fields).",:code_insee)";
     $stmt = $db->prepare($sql);
     $stmt->execute($values);
@@ -258,7 +280,8 @@ if ($type === 'add_installation') {
 }
 
 // Modification d'une installation
-if ($type === 'update_installation') {
+if ($type === 'update_installation'){
+    // Récupère les données envoyées en JSON
     $data = json_decode(file_get_contents('php://input'), true);
     $fields = ['locality','marque_panneau','panneau_modele','nb_panneaux','marque_onduleur','modele_onduleur','nb_onduleur','annee_install','mois_install','puissance_crete','surface','lat','lon','installateur'];
     $set = [];
@@ -285,11 +308,13 @@ if ($type === 'delete_installation' && !empty($_GET['id'])) {
     exit;
 }
 
-if ($type === 'recherche') {
+// Recherche d'installations
+if ($type === 'recherche'){
+    // Récupère les filtres du formulaire
     $marqueOndul = $_GET['marque_ondul'] ?? '';
     $marquePan = $_GET['marque_pan'] ?? '';
     $dep = $_GET['dep'] ?? '';
-
+    // Prépare la requête SQL avec les filtres
     $sql = "SELECT  b.id, CONCAT(b.mois_install, '/', b.annee_install) AS date,
                 b.nb_panneaux,
                 b.surface,
