@@ -125,7 +125,7 @@ if ($type === 'batiment_details' && !empty($id)) {
         b.surface,
         b.modele_onduleur
       FROM batiment b
-      JOIN commune_france c ON c.nom_commune = b.locality
+      JOIN commune_france c ON c.code_insee = b.code_insee
       JOIN departement d ON d.code_departement = c.code_departement
       WHERE b.id = :id
       LIMIT 1');

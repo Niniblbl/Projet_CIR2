@@ -1,5 +1,7 @@
 <?php 
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Définit les constantes de connexion à la base de données
 require_once('../php/login.php');
 
